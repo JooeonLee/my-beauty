@@ -1,16 +1,17 @@
-package me.jooeon.mybeauty.domain.member.model;
+package me.jooeon.mybeauty.domain.auth.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.Status;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
+import me.jooeon.mybeauty.domain.member.model.Member;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Authentication extends BaseTimeEntity {
+public class Authentication extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authentication_id", nullable = false)

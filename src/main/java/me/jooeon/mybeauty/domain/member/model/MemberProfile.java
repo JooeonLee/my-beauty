@@ -5,14 +5,14 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
-import me.jooeon.mybeauty.common.Status;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberProfile extends BaseTimeEntity {
+public class MemberProfile extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_profile_id", nullable = false)

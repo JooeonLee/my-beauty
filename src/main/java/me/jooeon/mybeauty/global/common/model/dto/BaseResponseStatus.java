@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.common.response;
+package me.jooeon.mybeauty.global.common.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,12 +1,12 @@
-package me.jooeon.mybeauty.domain.reivew.model;
+package me.jooeon.mybeauty.domain.review.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.cosmetic.model.Cosmetic;
-import me.jooeon.mybeauty.common.Status;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.domain.likes.model.ReviewLikes;
 import me.jooeon.mybeauty.domain.member.model.Member;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Review extends BaseTimeEntity {
+public class Review extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", nullable = false)

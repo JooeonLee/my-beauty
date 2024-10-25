@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.Status;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.article.model.Comment;
 import me.jooeon.mybeauty.domain.article.model.Scrap;
-import me.jooeon.mybeauty.domain.reivew.model.Review;
+import me.jooeon.mybeauty.domain.auth.model.Authentication;
+import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.likes.model.Likes;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member extends BaseTimeEntity {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", nullable = false)

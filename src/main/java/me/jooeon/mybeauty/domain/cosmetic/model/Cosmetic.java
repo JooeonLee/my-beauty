@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.Status;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
-import me.jooeon.mybeauty.domain.reivew.model.Review;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
+import me.jooeon.mybeauty.domain.review.model.Review;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Cosmetic extends BaseTimeEntity {
+public class Cosmetic extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cosmetic_id", nullable = false)

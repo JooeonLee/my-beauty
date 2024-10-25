@@ -1,8 +1,7 @@
-package me.jooeon.mybeauty.common.advice;
+package me.jooeon.mybeauty.global.common.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
-import me.jooeon.mybeauty.common.response.BaseResponse;
-import me.jooeon.mybeauty.common.response.BaseResponseStatus;
+import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
 import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,11 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import static me.jooeon.mybeauty.common.response.BaseResponseStatus.*;
+import static me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus.*;
 
 @RestControllerAdvice
 @Slf4j
-public class GlobalControllerAdvice {
+public class GlobalExceptionHandler {
 
     /**
      * MethodArgumentTypeMismatchException 예외를 처리하는 핸들러입니다.

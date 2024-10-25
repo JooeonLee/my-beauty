@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.Status;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class CosmeticTag extends BaseTimeEntity {
+public class CosmeticTag extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cosmetic_tag_id", nullable = false)
