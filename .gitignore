@@ -38,3 +38,6 @@ out/
 
 ### MAC DS_Store file ###
 .DS_Store
+
+### application-secret.yml ###
+application-secret.yml
