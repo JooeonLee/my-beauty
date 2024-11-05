@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.domain.auth.model;
+package me.jooeon.mybeauty.domain.auth.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +32,5 @@ public class Auth extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
 
 }
