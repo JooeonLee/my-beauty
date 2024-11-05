@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.domain.member.application.MemberService;
 import me.jooeon.mybeauty.domain.member.model.Member;
+import me.jooeon.mybeauty.domain.member.model.dto.MemberBeautyInfoUpdateRequestDto;
 import me.jooeon.mybeauty.domain.member.model.dto.MemberProfileUpdateRequestDto;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
@@ -47,5 +48,16 @@ public class MemberController {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
+    @PatchMapping("/beauty-info")
+    public BaseResponse updateMemberBeautyInfo(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+                                               @RequestBody MemberBeautyInfoUpdateRequestDto requestDto) {
+
+        log.info("MemberController updateMemberBeautyInfo 진입");
+
+        Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
+        memberService.updateMemberBeautyInfo(memberId, requestDto);
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+    }
 
 }

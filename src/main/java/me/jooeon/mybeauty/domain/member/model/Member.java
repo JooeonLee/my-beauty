@@ -45,6 +45,8 @@ public class Member extends BaseEntity {
     private String scalpType;
     private String hairType;
     private String personalColor;
+    @Column(columnDefinition = "TINYINT(1)")
+    private Boolean displayInProfile;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -87,5 +89,14 @@ public class Member extends BaseEntity {
         if(memberProfileImageUrl != null) {
             this.memberProfileImageUrl = memberProfileImageUrl;
         }
+    }
+
+    // 멤버 뷰티 프로필 업데이트
+    public void updateMemberBeautyInfo(String scalpType, String hairType, String personalColor, Boolean displayInProfile) {
+
+        this.scalpType = scalpType;
+        this.hairType = hairType;
+        this.personalColor = personalColor;
+        this.displayInProfile = displayInProfile;
     }
 }
