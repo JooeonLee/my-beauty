@@ -75,4 +75,17 @@ public class Member extends BaseEntity {
                 .status(Status.ACTIVE)
                 .build();
     }
+
+    // 멤버 프로필 업데이트
+    public void updateProfile(String nickname, String gender, String birthday, String skinType, String memberProfileImageUrl) {
+
+        this.nickname = nickname;
+        this.gender = Gender.valueOf(gender);
+        this.birthday = birthday;
+        this.skinType = skinType;
+
+        if(memberProfileImageUrl != null) {
+            this.memberProfileImageUrl = memberProfileImageUrl;
+        }
+    }
 }
