@@ -1,20 +1,43 @@
+# 기본 설정
 spring:
-  datasource:
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mybeauty
-  sql:
-    init:
-      platform: mysql
+  application:
+    name: mybeauty
+  profiles:
+    active: local
+    group:
+      local: local, secret
+      prod: prod, secret
 
----
-
-spring:
   jpa:
+    generate-ddl: true
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+    jpa:
+      repositories:
+        bootstrap-mode: default
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type.descriptor.sql: trace
+
+      springframework:
+        security: DEBUG
+        security.oauth2: DEBUG
+        web: DEBUG
+
+
+# aws s3 설정 추가 예정
+
+# Spring Docs 설정 <- Spring Rest Docs 사용할 것인지 Open API를 용한 Swagger 사용할 것인지 고민 후 추가 필요

@@ -1,7 +1,7 @@
 package me.jooeon.mybeauty.domain.likes.model;
 
 import jakarta.persistence.*;
-import me.jooeon.mybeauty.domain.reivew.model.Review;
+import me.jooeon.mybeauty.domain.review.model.Review;
 
 @Entity
 @DiscriminatorValue("review")

@@ -1,11 +1,11 @@
-package me.jooeon.mybeauty.common.response;
+package me.jooeon.mybeauty.global.common.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 
-import static me.jooeon.mybeauty.common.response.BaseResponseStatus.*;
+import static me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus.*;
 
 @Getter
 @JsonPropertyOrder({"isSuccess", "responseCode", "responseMessage", "result"})

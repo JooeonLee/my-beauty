@@ -1,14 +1,12 @@
 package me.jooeon.mybeauty.domain.member.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import me.jooeon.mybeauty.common.Status;
-import me.jooeon.mybeauty.common.BaseTimeEntity;
+import lombok.*;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
+import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.article.model.Comment;
 import me.jooeon.mybeauty.domain.article.model.Scrap;
-import me.jooeon.mybeauty.domain.reivew.model.Review;
+import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.likes.model.Likes;
 
 import java.util.ArrayList;
@@ -17,7 +15,9 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member extends BaseTimeEntity {
+@Builder
+@Getter
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", nullable = false)
@@ -25,6 +25,9 @@ public class Member extends BaseTimeEntity {
 
     @Column
     private String email;
+
+    @Column(nullable = false)
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -50,6 +53,15 @@ public class Member extends BaseTimeEntity {
     @OneToOne(mappedBy = "member")
     private MemberProfile memberProfile;
 
-    @OneToOne(mappedBy = "member")
-    private Authentication authentication;
+//    @OneToOne(mappedBy = "member")
+//    private Auth auth;
+
+    public static Member of(String email, String name, Role role) {
+        return Member.builder()
+                .email(email)
+                .nickname(name)
+                .role(role)
+                .status(Status.ACTIVE)
+                .build();
+    }
 }
