@@ -1,9 +1,7 @@
 package me.jooeon.mybeauty.domain.auth.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.member.model.Member;
@@ -11,7 +9,10 @@ import me.jooeon.mybeauty.domain.member.model.Member;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Authentication extends BaseEntity {
+@Builder
+@Getter
+@Table(name = "authentication")
+public class Auth extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authentication_id", nullable = false)
@@ -31,5 +32,6 @@ public class Authentication extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
 
 }
