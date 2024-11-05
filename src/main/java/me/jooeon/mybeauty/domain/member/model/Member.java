@@ -33,6 +33,19 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
+    @Column(columnDefinition = "TEXT")
+    private String memberProfileImageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private String birthday;
+
+    private String skinType;
+    private String scalpType;
+    private String hairType;
+    private String personalColor;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
@@ -50,8 +63,6 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Scrap> scraps = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
-    private MemberProfile memberProfile;
 
 //    @OneToOne(mappedBy = "member")
 //    private Auth auth;
