@@ -9,6 +9,7 @@ import me.jooeon.mybeauty.domain.article.model.Scrap;
 import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.likes.model.Likes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String birthday;
+    @Column(columnDefinition = "DATE")
+    private LocalDate birthday;
 
     private String skinType;
     private String scalpType;
@@ -79,7 +81,7 @@ public class Member extends BaseEntity {
     }
 
     // 멤버 프로필 업데이트
-    public void updateProfile(String nickname, String gender, String birthday, String skinType, String memberProfileImageUrl) {
+    public void updateProfile(String nickname, String gender, LocalDate birthday, String skinType, String memberProfileImageUrl) {
 
         this.nickname = nickname;
         this.gender = Gender.valueOf(gender);

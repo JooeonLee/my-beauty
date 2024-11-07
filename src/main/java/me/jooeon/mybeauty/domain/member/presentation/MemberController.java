@@ -6,6 +6,7 @@ import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.domain.member.application.MemberService;
 import me.jooeon.mybeauty.domain.member.model.Member;
 import me.jooeon.mybeauty.domain.member.model.dto.MemberBeautyInfoUpdateRequestDto;
+import me.jooeon.mybeauty.domain.member.model.dto.MemberMyPageResponseDto;
 import me.jooeon.mybeauty.domain.member.model.dto.MemberProfileUpdateRequestDto;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
@@ -23,7 +24,7 @@ public class MemberController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
-    @GetMapping("")
+    @GetMapping("/test")
     public BaseResponse<Long> getMember(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
         log.info("=== Member Controller 진입 ===");
@@ -60,4 +61,14 @@ public class MemberController {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
+    @GetMapping("")
+    public BaseResponse<MemberMyPageResponseDto> getMemberMyPageInfo(@AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("MemberController getMemberProfile 진입");
+
+        Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
+        MemberMyPageResponseDto responseDto = memberService.getMemberMyPageInfo(memberId);
+
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, responseDto);
+    }
 }

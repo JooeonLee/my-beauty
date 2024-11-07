@@ -9,7 +9,7 @@ public class MemberProfileUpdateRequestDto {
 
     private String nickname;
     private String gender;
-    private String birthday;
+    private String birthday; //yyyyMMdd
 
     // todo entity 단에서 enum으로 변경 고려해보기
     private String skinType;
