@@ -9,6 +9,7 @@ import me.jooeon.mybeauty.domain.article.model.Scrap;
 import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.likes.model.Likes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,22 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
+    @Column(columnDefinition = "TEXT")
+    private String memberProfileImageUrl;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Column(columnDefinition = "DATE")
+    private LocalDate birthday;
+
+    private String skinType;
+    private String scalpType;
+    private String hairType;
+    private String personalColor;
+    @Column(columnDefinition = "TINYINT(1)")
+    private Boolean displayInProfile;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
@@ -50,8 +67,6 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Scrap> scraps = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member")
-    private MemberProfile memberProfile;
 
 //    @OneToOne(mappedBy = "member")
 //    private Auth auth;
@@ -63,5 +78,27 @@ public class Member extends BaseEntity {
                 .role(role)
                 .status(Status.ACTIVE)
                 .build();
+    }
+
+    // 멤버 프로필 업데이트
+    public void updateProfile(String nickname, String gender, LocalDate birthday, String skinType, String memberProfileImageUrl) {
+
+        this.nickname = nickname;
+        this.gender = Gender.valueOf(gender);
+        this.birthday = birthday;
+        this.skinType = skinType;
+
+        if(memberProfileImageUrl != null) {
+            this.memberProfileImageUrl = memberProfileImageUrl;
+        }
+    }
+
+    // 멤버 뷰티 프로필 업데이트
+    public void updateMemberBeautyInfo(String scalpType, String hairType, String personalColor, Boolean displayInProfile) {
+
+        this.scalpType = scalpType;
+        this.hairType = hairType;
+        this.personalColor = personalColor;
+        this.displayInProfile = displayInProfile;
     }
 }

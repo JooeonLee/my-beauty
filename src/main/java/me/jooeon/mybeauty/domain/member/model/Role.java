@@ -31,6 +31,8 @@ public enum Role {
                 }
             }
         }
+
+        // todo 예외 처리 로직 추가
         throw new IllegalArgumentException("Unknown role: " + roleString);
     }
 
