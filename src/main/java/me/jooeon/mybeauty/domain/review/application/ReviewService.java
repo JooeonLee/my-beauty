@@ -8,8 +8,12 @@ import me.jooeon.mybeauty.domain.member.model.Member;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewCreateRequestDto;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +34,10 @@ public class ReviewService {
 
         Review savedReview = reviewRepository.save(review);
         return savedReview.getId();
+    }
+
+    public List<ReviewResponseDto> getReviewByCosmeticId(long cosmeticId) {
+
+        return new ArrayList<>();
     }
 }

@@ -15,7 +15,7 @@ public class CosmeticFixture {
                 .build();
 
         Category category = Category.builder()
-                .name("테스트 화자품 카테고리")
+                .name("테스트 화장품 카테고리")
                 .status(Status.ACTIVE)
                 .parent(null)
                 .build();
