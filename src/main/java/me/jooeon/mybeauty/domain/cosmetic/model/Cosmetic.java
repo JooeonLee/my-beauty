@@ -1,9 +1,7 @@
 package me.jooeon.mybeauty.domain.cosmetic.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.review.model.Review;
@@ -12,6 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Builder
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Cosmetic extends BaseEntity {
@@ -40,11 +40,11 @@ public class Cosmetic extends BaseEntity {
     private Status status;
 
     // 연관 관계 mapping
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 

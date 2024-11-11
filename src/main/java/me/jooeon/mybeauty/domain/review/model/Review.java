@@ -1,9 +1,7 @@
 package me.jooeon.mybeauty.domain.review.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.cosmetic.model.Cosmetic;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
@@ -14,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Review extends BaseEntity {
