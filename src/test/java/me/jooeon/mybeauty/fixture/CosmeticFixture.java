@@ -7,18 +7,7 @@ import me.jooeon.mybeauty.global.common.model.enums.Status;
 
 public class CosmeticFixture {
 
-    public static Cosmetic 화장품() {
-
-        Brand brand = Brand.builder()
-                .name("테스트 브랜드 이름")
-                .status(Status.ACTIVE)
-                .build();
-
-        Category category = Category.builder()
-                .name("테스트 화장품 카테고리")
-                .status(Status.ACTIVE)
-                .parent(null)
-                .build();
+    public static Cosmetic 화장품(Brand brand, Category category) {
 
         return 화장품(brand, category, "테스트 화장품 이름", 10000, 100);
     }

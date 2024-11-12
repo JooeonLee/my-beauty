@@ -9,6 +9,7 @@ import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewCreateRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.domain.review.model.mapper.ReviewMapper;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
@@ -59,5 +60,10 @@ public class ReviewService {
                 .map(review -> ReviewMapper.toReviewResponseDto(review, 0));
 
         return new SliceResponse<>(reviewResponseDtoSlice.getContent(), reviewResponseDtoSlice.getPageable().getPageNumber(), reviewResponseDtoSlice.isLast());
+    }
+
+    @Transactional(readOnly = true)
+    public SliceResponse<ReviewWithCosmeticResponseDto> getReviewByMemberId(long memberId, Pageable pageable) {
+        return new SliceResponse<>(new ArrayList<>(), 0, false);
     }
 }
