@@ -54,7 +54,7 @@ public class ReviewService {
         Slice<Review> reviewSlice = reviewRepository.findByCosmeticIdOrderByCreatedAtDesc(cosmetic.getId(), pageable);
 
 
-        // todo likeCount 를 0이 아닌 실제 DB에서 조회한 값으로 넣기
+        // todo likeCount 를 0이 아닌 실제 DB 에서 조회한 값으로 넣기 (Join 후 JPQL 직접 작성 필요)
         // 조회한 review 바탕으로 response dto 생성
         Slice<ReviewResponseDto> reviewResponseDtoSlice = reviewSlice
                 .map(review -> ReviewMapper.toReviewResponseDto(review, 0));
@@ -64,6 +64,17 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public SliceResponse<ReviewWithCosmeticResponseDto> getReviewByMemberId(long memberId, Pageable pageable) {
-        return new SliceResponse<>(new ArrayList<>(), 0, false);
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Member member = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+
+        Slice<Review> reviewSlice = reviewRepository.findByMemberIdOrderByCreatedAtDesc(member.getId(), pageable);
+
+        // todo likeCount 를 0이 아닌 실제 DB 에서 조회한 값으로 넣기 (Join 후 JPQL 직접 작성 필요)
+        // 조회한 review 바탕으로 response dto 생성
+        Slice<ReviewWithCosmeticResponseDto> reviewWithCosmeticResponseDtoSlice = reviewSlice
+                .map(review -> ReviewMapper.toReviewWithCosmeticResponseDto(review, 0));
+
+        return new SliceResponse<>(reviewWithCosmeticResponseDtoSlice.getContent(), reviewWithCosmeticResponseDtoSlice.getNumber(), reviewWithCosmeticResponseDtoSlice.isLast());
     }
 }

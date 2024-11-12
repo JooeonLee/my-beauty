@@ -12,5 +12,7 @@ public interface ReviewRepository {
 
     Slice<Review> findByCosmeticIdOrderByCreatedAtDesc(Long cosmeticId, Pageable pageable);
 
+    Slice<Review> findByMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
+
     public void deleteAllInBatch();
 }

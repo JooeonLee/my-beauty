@@ -6,6 +6,7 @@ import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.domain.review.application.ReviewService;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewCreateRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
@@ -52,4 +53,19 @@ public class ReviewController {
         SliceResponse<ReviewResponseDto> responseDto = reviewService.getReviewByCosmeticId(cosmeticId, pageRequest);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, responseDto);
     }
+
+    @GetMapping("/members/me/reviews")
+    public BaseResponse<SliceResponse<ReviewWithCosmeticResponseDto>> getReviewByMemberId(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+                                                                                          @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                                                                          @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
+        log.info("=== Review Controller getReviewByMemberId 진입 ===");
+
+        Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReviewByMemberId(memberId, pageRequest);
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS, responseDto);
+    }
+
+
 }
