@@ -77,4 +77,9 @@ public class ReviewService {
 
         return new SliceResponse<>(reviewWithCosmeticResponseDtoSlice.getContent(), reviewWithCosmeticResponseDtoSlice.getNumber(), reviewWithCosmeticResponseDtoSlice.isLast());
     }
+
+    @Transactional(readOnly = true)
+    public SliceResponse<ReviewWithCosmeticResponseDto> getReview(Pageable pageable) {
+        return new SliceResponse<>(new ArrayList<>(), 0, false);
+    }
 }

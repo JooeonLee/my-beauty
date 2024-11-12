@@ -206,4 +206,48 @@ public class ReviewServiceTest {
         // then
         assertThat(responseDto.getContent().size()).isEqualTo(5);
     }
+
+    @Test
+    @Transactional
+    void 실시간_리뷰_목록을_조회한다() {
+
+        // given
+        String email = "테스트_멤버@이메일.com";
+        String name ="테스트_멤버_이름";
+        List<Member> memberList = new ArrayList<>();
+        for(int i=1; i<=5; i++) {
+            Member testMember = 멤버(email, name + i);
+            testMember.updateProfile("테스트_멤버_이름"+i, "MALE", DateUtil.convertStringToDate("19970609"), "복합성", "테스트_이미지_URL"+i);
+            memberList.add(testMember);
+            memberRepository.save(testMember);
+        }
+
+        Brand testBrand = 브랜드();
+        brandRepository.save(testBrand);
+
+        Category testCategory = 카테고리();
+        categoryRepository.save(testCategory);
+
+        List<Cosmetic> cosmeticList = new ArrayList<>();
+        for(int i=1; i<=5; i++) {
+            Cosmetic cosmetic = 화장품(testBrand, testCategory, "테스트_화장품_이름"+i, 10000*i, 500*i);
+            cosmeticList.add(cosmetic);
+            cosmeticRepository.save(cosmetic);
+        }
+
+        List<Review> reviewList = new ArrayList<>();
+        for(int i=0; i<5; i++) {
+            Review testReview = 리뷰(memberList.get(i), cosmeticList.get(i));
+            reviewList.add(testReview);
+            reviewRepository.save(testReview);
+        }
+
+        PageRequest pageRequest = PageRequest.of(0, 5);
+
+        // when
+        SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReview(pageRequest);
+
+        // then
+        assertThat(responseDto.getContent().size()).isEqualTo(5);
+    }
 }
