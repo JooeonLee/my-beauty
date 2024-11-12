@@ -11,11 +11,13 @@ import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewCreateRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
-import org.assertj.core.api.Assertions;
+import me.jooeon.mybeauty.global.common.util.DateUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Slice;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
@@ -43,9 +45,20 @@ public class ReviewServiceTest {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @AfterEach
     void tearDown() {
+        // DB 초기화
+        reviewRepository.deleteAllInBatch();
+        memberRepository.deleteAllInBatch();
+        cosmeticRepository.deleteAllInBatch();
 
+        // DB id 칼럼 초기화
+        jdbcTemplate.execute("ALTER TABLE review ALTER COLUMN review_id RESTART WITH 1");
+        jdbcTemplate.execute("ALTER TABLE member ALTER COLUMN member_id RESTART WITH 1");
+        jdbcTemplate.execute("ALTER TABLE cosmetic ALTER COLUMN cosmetic_id RESTART WITH 1");
     }
 
     @Test
@@ -104,6 +117,7 @@ public class ReviewServiceTest {
         List<Member> memberList = new ArrayList<>();
         for(int i=1; i<=5; i++) {
             Member testMember = 멤버(email, name + i);
+            testMember.updateProfile("테스트_멤버_이름"+i, "MALE", DateUtil.convertStringToDate("19970609"), "복합성", "테스트_이미지_URL"+i);
             memberList.add(testMember);
             memberRepository.save(testMember);
         }
@@ -119,10 +133,10 @@ public class ReviewServiceTest {
         }
 
         // when
-        List<ReviewResponseDto> reviewResponseDtoList = reviewService.getReviewByCosmeticId(testCosmetic.getId());
+        Slice<ReviewResponseDto> reviewResponseDtoSlice = reviewService.getReviewByCosmeticId(testCosmetic.getId(),0, 5);
 
         // then
-        assertThat(reviewResponseDtoList.size()).isEqualTo(5);
+        assertThat(reviewResponseDtoSlice.getSize()).isEqualTo(5);
     }
 
 }

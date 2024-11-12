@@ -9,4 +9,6 @@ public interface CosmeticRepository {
     public <S extends Cosmetic> S save(S cosmetic);
 
     public Optional<Cosmetic> findById(Long id);
+
+    public void deleteAllInBatch();
 }
