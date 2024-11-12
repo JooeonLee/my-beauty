@@ -10,7 +10,7 @@ public interface ReviewRepository {
 
     public <S extends Review> S save(S entity);
 
-    Slice<Review> findByCosmeticId(Long cosmeticId, Pageable pageable);
+    Slice<Review> findByCosmeticIdOrderByCreatedAtDesc(Long cosmeticId, Pageable pageable);
 
     public void deleteAllInBatch();
 }

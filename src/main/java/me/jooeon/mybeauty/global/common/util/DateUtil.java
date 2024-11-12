@@ -6,6 +6,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class DateUtil {
             throw new IllegalArgumentException();
         }
     }
+
     public static int calculateAge(LocalDate birthDate) {
         if(birthDate == null) {
             throw new IllegalArgumentException();
@@ -30,5 +32,20 @@ public class DateUtil {
         }
 
         return Period.between(birthDate, currentDate).getYears();
+    }
+
+    // 두 날짜 사이의 일 수 계산
+    public static long calculateDaysBetween(LocalDate startDate, LocalDate endDate) {
+        return ChronoUnit.DAYS.between(startDate, endDate);
+    }
+
+    // 두 날짜 사이의 월 수 계산
+    public static long calculateMonthsBetween(LocalDate startDate, LocalDate endDate) {
+        return ChronoUnit.MONTHS.between(startDate, endDate);
+    }
+
+    // 두 날짜 사이의 연 수 계산
+    public static long calculateYearsBetween(LocalDate startDate, LocalDate endDate) {
+        return ChronoUnit.YEARS.between(startDate, endDate);
     }
 }

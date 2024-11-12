@@ -11,11 +11,13 @@ import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewCreateRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
+import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
 import me.jooeon.mybeauty.global.common.util.DateUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -73,16 +75,14 @@ public class ReviewServiceTest {
         Category testCategory = testCosmetic.getCategory();
 
         cosmeticRepository.save(testCosmetic);
-        long testCosmeticId = testCosmetic.getId();
         ReviewCreateRequestDto requestDto = ReviewCreateRequestDto.builder()
-                .cosmeticId(testCosmeticId)
                 .star(5)
                 .content("테스트 리뷰 내용")
                 .oneLineReview("테리트 리뷰 한줄평")
                 .build();
 
         // when
-        long savedReviewId = reviewService.createReview(requestDto, testMember.getId());
+        long savedReviewId = reviewService.createReview(requestDto, testMember.getId(), testCosmetic.getId());
 
         // then
         assertThat(savedReviewId).isEqualTo(1);
@@ -97,14 +97,13 @@ public class ReviewServiceTest {
         memberRepository.save(testMember);
 
         ReviewCreateRequestDto requestDto = ReviewCreateRequestDto.builder()
-                .cosmeticId(0L)
                 .star(5)
                 .content("테스트 리뷰 내용")
                 .oneLineReview("테리트 리뷰 한줄평")
                 .build();
 
         // when, then
-        assertThatThrownBy(() -> reviewService.createReview(requestDto, testMember.getId()))
+        assertThatThrownBy(() -> reviewService.createReview(requestDto, testMember.getId(), 0L))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -132,11 +131,13 @@ public class ReviewServiceTest {
             reviewRepository.save(testReview);
         }
 
+        PageRequest pageRequest = PageRequest.of(0, 5);
+
         // when
-        Slice<ReviewResponseDto> reviewResponseDtoSlice = reviewService.getReviewByCosmeticId(testCosmetic.getId(),0, 5);
+        SliceResponse<ReviewResponseDto> responseDto = reviewService.getReviewByCosmeticId(testCosmetic.getId(), pageRequest);
 
         // then
-        assertThat(reviewResponseDtoSlice.getSize()).isEqualTo(5);
+        assertThat(responseDto.getContent().size()).isEqualTo(5);
     }
 
 }
