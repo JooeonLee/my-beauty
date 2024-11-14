@@ -51,6 +51,18 @@ public class ReviewController {
         return new BaseResponse(BaseResponseStatus.SUCCESS, updateReviewId);
     }
 
+    @DeleteMapping("/members/me/reviews/{reviewId}")
+    public BaseResponse deleteReview(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+                                     @PathVariable("reviewId") Long reviewId) {
+
+        log.info("=== Review Controller deleteReview ===");
+
+        Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
+        Long deleteReviewId = reviewService.deleteReview(memberId, reviewId);
+
+        return new BaseResponse(BaseResponseStatus.SUCCESS, deleteReviewId);
+    }
+
     @GetMapping("/cosmetics/{cosmeticId}/reviews")
     public BaseResponse<SliceResponse<ReviewResponseDto>> getReviewByCosmeticId(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
                                                                                 @PathVariable("cosmeticId") Long cosmeticId,
