@@ -30,6 +30,7 @@ public class Category extends BaseEntity {
 
     // 연관 관계 mapping
     @OneToMany(mappedBy = "category")
+    @Builder.Default
     private List<Cosmetic> cosmetics = new ArrayList<>();
 
     // 부모 카테고리 설정
@@ -39,5 +40,6 @@ public class Category extends BaseEntity {
 
     // 자식 카테고리 설정
     @OneToMany(mappedBy = "parent")
+    @Builder.Default
     private List<Category> children = new ArrayList<>();
 }

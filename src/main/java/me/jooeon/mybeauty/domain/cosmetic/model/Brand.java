@@ -28,6 +28,7 @@ public class Brand extends BaseEntity {
 
     // 연관 관계 mapping
     @OneToMany(mappedBy = "brand")
+    @Builder.Default
     private List<Cosmetic> cosmetics = new ArrayList<>();
 
 }

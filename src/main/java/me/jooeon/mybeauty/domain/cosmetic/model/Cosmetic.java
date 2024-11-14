@@ -49,8 +49,10 @@ public class Cosmetic extends BaseEntity {
     private Category category;
 
     @OneToMany(mappedBy = "cosmetic")
+    @Builder.Default
     private Set<CosmeticTag> cosmeticTags = new HashSet<>();
 
     @OneToMany(mappedBy = "cosmetic")
+    @Builder.Default
     private Set<Review> reviews = new HashSet<>();
 }

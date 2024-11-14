@@ -10,7 +10,7 @@ import me.jooeon.mybeauty.domain.cosmetic.model.repository.CosmeticRepository;
 import me.jooeon.mybeauty.domain.member.model.Member;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.domain.review.model.Review;
-import me.jooeon.mybeauty.domain.review.model.dto.ReviewCreateRequestDto;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewSaveRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,7 +95,7 @@ public class ReviewServiceTest {
         Cosmetic testCosmetic = 화장품(testBrand, testCategory);
         cosmeticRepository.save(testCosmetic);
 
-        ReviewCreateRequestDto requestDto = ReviewCreateRequestDto.builder()
+        ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .star(5)
                 .content("테스트 리뷰 내용")
                 .oneLineReview("테리트 리뷰 한줄평")
@@ -118,7 +117,7 @@ public class ReviewServiceTest {
         Member testMember = 멤버();
         memberRepository.save(testMember);
 
-        ReviewCreateRequestDto requestDto = ReviewCreateRequestDto.builder()
+        ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .star(5)
                 .content("테스트 리뷰 내용")
                 .oneLineReview("테리트 리뷰 한줄평")
@@ -249,5 +248,38 @@ public class ReviewServiceTest {
 
         // then
         assertThat(responseDto.getContent().size()).isEqualTo(5);
+    }
+
+    @Test
+    @Transactional
+    void 요청한_내용으로_리뷰를_수정한다() {
+
+        // given
+        Member testMember = 멤버();
+        memberRepository.save(testMember);
+
+        Brand testBrand = 브랜드();
+        brandRepository.save(testBrand);
+
+        Category testCategory = 카테고리();
+        categoryRepository.save(testCategory);
+
+        Cosmetic testCosmetic = 화장품(testBrand, testCategory);
+        cosmeticRepository.save(testCosmetic);
+
+        Review testReview = 리뷰(testMember, testCosmetic);
+        reviewRepository.save(testReview);
+
+        ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
+                .star(5)
+                .content("수정 테스트 리뷰 내용")
+                .oneLineReview("수정 테리트 리뷰 한줄평")
+                .build();
+
+        // when
+        long updatedReviewId = reviewService.updateReview(requestDto, testMember.getId(), testReview.getId());
+
+        // then
+        assertThat(updatedReviewId).isEqualTo(1);
     }
 }

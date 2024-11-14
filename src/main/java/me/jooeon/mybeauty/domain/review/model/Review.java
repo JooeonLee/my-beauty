@@ -46,5 +46,12 @@ public class Review extends BaseEntity {
 
 
     @OneToMany(mappedBy = "review")
+    @Builder.Default
     private List<ReviewLikes> reviewLikesList = new ArrayList<>();
+
+    public void updateReview(int star, String content, String oneLineReview) {
+        this.star = star;
+        this.content = content;
+        this.oneLineReview = oneLineReview;
+    }
 }

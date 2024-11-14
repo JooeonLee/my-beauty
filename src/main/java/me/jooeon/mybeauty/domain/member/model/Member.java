@@ -56,15 +56,19 @@ public class Member extends BaseEntity {
 
     // 연관 관계 mapping
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Likes> likesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
+    @Builder.Default
     private List<Scrap> scraps = new ArrayList<>();
 
 

@@ -11,14 +11,14 @@ import me.jooeon.mybeauty.global.common.model.enums.Status;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewCreateRequestDto {
+public class ReviewSaveRequestDto {
 
     private int star;
     private String content;
     private String oneLineReview;
 
     @Builder
-    public ReviewCreateRequestDto(int star, String content, String oneLineReview) {
+    public ReviewSaveRequestDto(int star, String content, String oneLineReview) {
         this.star = star;
         this.content = content;
         this.oneLineReview = oneLineReview;
