@@ -15,6 +15,7 @@ import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.util.DateUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static me.jooeon.mybeauty.fixture.BrandFixture.브랜드;
 import static me.jooeon.mybeauty.fixture.CategoryFixture.카테고리;
 import static me.jooeon.mybeauty.fixture.CosmeticFixture.화장품;
@@ -35,6 +38,7 @@ import static me.jooeon.mybeauty.fixture.MemberFixture.멤버;
 import static me.jooeon.mybeauty.fixture.ReviewFixture.리뷰;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -281,5 +285,64 @@ public class ReviewServiceTest {
 
         // then
         assertThat(updatedReviewId).isEqualTo(1);
+    }
+
+    @Test
+    @Transactional
+    void 리뷰_삭제_요청에_대해_소프트_딜리트를_수행한다() {
+
+        // given
+        Member testMember = 멤버();
+        memberRepository.save(testMember);
+
+        Brand testBrand = 브랜드();
+        brandRepository.save(testBrand);
+
+        Category testCategory = 카테고리();
+        categoryRepository.save(testCategory);
+
+        Cosmetic testCosmetic = 화장품(testBrand, testCategory);
+        cosmeticRepository.save(testCosmetic);
+
+        Review testReview = 리뷰(testMember, testCosmetic);
+        reviewRepository.save(testReview);
+
+        // when
+        long deletedReviewId = reviewService.deleteReview(testMember.getId(), testReview.getId());
+
+        // then
+        assertAll(
+                () -> assertThat(deletedReviewId).isEqualTo(1),
+                () -> assertThat(testReview.getStatus()).isEqualTo(Status.INACTIVE)
+        );
+    }
+
+    @Test
+    @Transactional
+    void 삭제된_리뷰는_조회되지_않는다() {
+
+        // given
+        Member testMember = 멤버();
+        memberRepository.save(testMember);
+
+        Brand testBrand = 브랜드();
+        brandRepository.save(testBrand);
+
+        Category testCategory = 카테고리();
+        categoryRepository.save(testCategory);
+
+        Cosmetic testCosmetic = 화장품(testBrand, testCategory);
+        cosmeticRepository.save(testCosmetic);
+
+        Review testReview = 리뷰(testMember, testCosmetic);
+        reviewRepository.save(testReview);
+
+        // when
+        long deletedReviewId = reviewService.deleteReview(testMember.getId(), testReview.getId());
+
+        // then
+        List<Long> reviewIdList = reviewRepository.findByMemberIdAndStatusOrderByCreatedAtDesc(testMember.getId(), Status.ACTIVE, PageRequest.of(0, 5))
+                .stream().map(Review::getId).collect(Collectors.toList());
+        assertThat(deletedReviewId).isNotIn(reviewIdList);
     }
 }

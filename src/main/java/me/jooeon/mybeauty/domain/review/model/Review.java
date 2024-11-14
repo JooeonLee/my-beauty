@@ -54,4 +54,8 @@ public class Review extends BaseEntity {
         this.content = content;
         this.oneLineReview = oneLineReview;
     }
+
+    public void deleteReview() {
+        this.status = Status.INACTIVE;
+    }
 }

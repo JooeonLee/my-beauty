@@ -104,4 +104,20 @@ public class ReviewService {
 
         return new SliceResponse<>(reviewWithCosmeticResponseDtoSlice.getContent(), reviewWithCosmeticResponseDtoSlice.getNumber(), reviewWithCosmeticResponseDtoSlice.isLast());
     }
+
+    @Transactional
+    public long deleteReview(long memberId, long reviewId) {
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Member member = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Review review = reviewRepository.findById(reviewId).orElseThrow(EntityNotFoundException::new);
+
+        review.deleteReview();
+
+        Review savedReview = reviewRepository.save(review);
+
+        return savedReview.getId();
+    }
 }
