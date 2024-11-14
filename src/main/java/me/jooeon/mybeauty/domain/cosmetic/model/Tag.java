@@ -19,7 +19,7 @@ public class Tag extends BaseEntity {
     @Column(name = "tag_id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "tag_value")
     private String value;
 
     private String description;

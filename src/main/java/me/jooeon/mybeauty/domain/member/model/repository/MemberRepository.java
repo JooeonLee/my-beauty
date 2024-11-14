@@ -9,4 +9,6 @@ public interface MemberRepository {
     public <S extends Member> S save(S entity);
 
     public Optional<Member> findById(Long id);
+
+    public void deleteAllInBatch();
 }

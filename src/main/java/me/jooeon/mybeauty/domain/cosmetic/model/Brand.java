@@ -1,9 +1,7 @@
 package me.jooeon.mybeauty.domain.cosmetic.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 
@@ -11,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Brand extends BaseEntity {
@@ -28,6 +28,7 @@ public class Brand extends BaseEntity {
 
     // 연관 관계 mapping
     @OneToMany(mappedBy = "brand")
+    @Builder.Default
     private List<Cosmetic> cosmetics = new ArrayList<>();
 
 }

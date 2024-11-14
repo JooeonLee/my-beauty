@@ -3,6 +3,7 @@ package me.jooeon.mybeauty.domain.cosmetic.model;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Category extends BaseEntity {
@@ -28,6 +30,7 @@ public class Category extends BaseEntity {
 
     // 연관 관계 mapping
     @OneToMany(mappedBy = "category")
+    @Builder.Default
     private List<Cosmetic> cosmetics = new ArrayList<>();
 
     // 부모 카테고리 설정
@@ -37,5 +40,6 @@ public class Category extends BaseEntity {
 
     // 자식 카테고리 설정
     @OneToMany(mappedBy = "parent")
+    @Builder.Default
     private List<Category> children = new ArrayList<>();
 }
