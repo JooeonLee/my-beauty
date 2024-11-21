@@ -1,0 +1,29 @@
+= Coonect API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+== Member 관련 API
+
+=== 마이 페이지 조회
+
+==== 요청
+
+include::{snippets}/member-my-page-info/http-request.adoc[]
+
+==== 요청 헤더
+include::{snippets}/member-my-page-info/request-headers.adoc[]
+
+==== 요청 필드
+
+
+
+==== 응답
+
+include::{snippets}/member-my-page-info/http-response.adoc[]
+
+==== 응답 필드
+
+include::{snippets}/member-my-page-info/response-fields.adoc[]

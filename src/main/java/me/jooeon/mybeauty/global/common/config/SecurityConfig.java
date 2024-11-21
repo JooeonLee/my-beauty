@@ -49,7 +49,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/api-json/**", "/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("/oauth2/**","/login/**", "/reissue", "/api/login/success").permitAll()
+                        .requestMatchers("/oauth2/**","/login/**", "/reissue", "/api/login/success", "/docs/**").permitAll()
                         //.anyRequest().authenticated() // 이상함
                         .anyRequest().hasRole("MEMBER")
                 );

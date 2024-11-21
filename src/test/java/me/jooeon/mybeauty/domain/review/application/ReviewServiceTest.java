@@ -105,6 +105,7 @@ public class ReviewServiceTest {
                 .oneLineReview("테리트 리뷰 한줄평")
                 .build();
 
+
         // when
         long savedReviewId = reviewService.createReview(requestDto, testMember.getId(), testCosmetic.getId());
 
