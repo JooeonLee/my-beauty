@@ -28,7 +28,8 @@ repositories {
 }
 
 ext {
-    snippetsDir = file("build/generated-snippets")
+//    snippetsDir = file("build/generated-snippets")
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -65,15 +66,21 @@ tasks.named('test') {
     finalizedBy asciidoctor
 }
 
-asciidoctor {
-    configurations 'asciidoctorExt'
-    baseDirFollowsSourceFile()
-    inputs.dir snippetsDir
-    dependsOn test
+tasks.named('testClasses') {
+    doFirst {
+        delete file('build/docs/asciidoc')
+    }
 }
 
-asciidoctor.doFirst {
-    delete file('src/main/resources/static/docs')
+tasks.named('asciidoctor') {
+    dependsOn test
+    configurations 'asciidoctorExt'
+    inputs.dir snippetsDir
+    finalizedBy copyDocument
+
+    doFirst {
+        delete file('src/main/resources/static/docs')
+    }
 }
 
 task copyDocument(type: Copy) {
@@ -82,6 +89,13 @@ task copyDocument(type: Copy) {
     into file('src/main/resources/static/docs')
 }
 
-build {
-    dependsOn copyDocument
+
+bootJar {
+    dependsOn asciidoctor
+    doFirst {
+        delete file('static/docs')
+    }
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
