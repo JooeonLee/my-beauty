@@ -10,10 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Cosmetic extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +47,24 @@ public class Cosmetic extends BaseEntity {
     private Category category;
 
     @OneToMany(mappedBy = "cosmetic")
-    @Builder.Default
     private Set<CosmeticTag> cosmeticTags = new HashSet<>();
 
     @OneToMany(mappedBy = "cosmetic")
-    @Builder.Default
     private Set<Review> reviews = new HashSet<>();
+
+    @Builder
+    public Cosmetic(String name, int price, float capacity, String explanation, String cosmeticImage, Brand brand, Category category) {
+        this.name = name;
+        this.price = price;
+        this.capacity = capacity;
+        this.explanation = explanation;
+        this.cosmeticImage = cosmeticImage;
+        this.brand = brand;
+        this.category = category;
+
+        // default value
+        this.status = Status.ACTIVE;
+        this.cosmeticTags = new HashSet<>();
+        this.reviews = new HashSet<>();
+    }
 }
