@@ -22,7 +22,6 @@ public class CosmeticFixture {
                 .capacity(capacity)
                 .explanation("테스트 화장품 설명")
                 .cosmeticImage("테스트 화장품 이미지 URL")
-                .status(Status.ACTIVE)
                 .build();
     }
 }

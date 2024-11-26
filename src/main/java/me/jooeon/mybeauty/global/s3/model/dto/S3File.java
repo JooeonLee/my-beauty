@@ -29,5 +29,4 @@ public class S3File {
         return this;
     }
 
-
 }

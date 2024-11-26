@@ -31,15 +31,18 @@ public class ImageService {
     private String removeBgApiKey;
 
     public String upload(MultipartFile file) {
-        MultipartFile bgRemovedMultipartFile = new CustomMultipartFile(
-                file.getName(),
-                file.getOriginalFilename(),
-                file.getContentType(),
-                removeBackground(file)
-        );
+//        MultipartFile bgRemovedMultipartFile = new CustomMultipartFile(
+//                file.getName(),
+//                file.getOriginalFilename(),
+//                file.getContentType(),
+//                removeBackground(file)
+//        );
 
 
-        S3File s3File = s3Util.uploadMultipartFile(bgRemovedMultipartFile);
+
+//        S3File s3File = s3Util.uploadMultipartFile(bgRemovedMultipartFile);
+        S3File s3File = s3Util.uploadMultipartFile(file);
+
 
 //        try {
 //            MultipartFile resizedMultipartFile = new CustomMultipartFile(
