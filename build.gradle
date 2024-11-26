@@ -58,6 +58,18 @@ dependencies {
     // spring rest docs
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // AWS S3
+    implementation platform("software.amazon.awssdk:bom:2.29.17")
+    implementation 'software.amazon.awssdk:s3'
+
+    // apache
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
+    implementation 'org.apache.httpcomponents.core5:httpcore5:5.2.5'
+
+    // thumbnailator
+    implementation 'net.coobird:thumbnailator:0.4.20'
+
 }
 
 tasks.named('test') {
