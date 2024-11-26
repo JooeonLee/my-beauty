@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.domain.Image;
+package me.jooeon.mybeauty.domain.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
