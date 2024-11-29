@@ -8,7 +8,9 @@ import me.jooeon.mybeauty.domain.cosmetic.model.Cosmetic;
 import me.jooeon.mybeauty.domain.cosmetic.model.dto.CosmeticDetailResponseDto;
 import me.jooeon.mybeauty.domain.cosmetic.model.dto.CosmeticSaveRequestDto;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
+import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
 import me.jooeon.mybeauty.global.common.util.CustomOAuth2UserUtil;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,22 @@ public class CosmeticController {
         Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
 
         CosmeticDetailResponseDto responseDto = cosmeticService.getCosmeticDetailInfoById(cosmeticId);
+
+        return new BaseResponse<>(responseDto);
+    }
+
+    @GetMapping(value = "/cosmetics/categories/{categoryId}")
+    public BaseResponse<SliceResponse<CosmeticDetailResponseDto>> getCosmeticDetailInfoByCategoryId(@PathVariable("categoryId") Long categoryId,
+                                                                                                    @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+                                                                                                    @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                                                                                    @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
+
+        log.info("=== Cosmetic Controller getCosmeticDetailIntoByCategoryId 진입 ===");
+
+        Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        SliceResponse<CosmeticDetailResponseDto> responseDto = cosmeticService.getCosmeticDetailInfoByCategoryId(categoryId, pageRequest);
 
         return new BaseResponse<>(responseDto);
     }
