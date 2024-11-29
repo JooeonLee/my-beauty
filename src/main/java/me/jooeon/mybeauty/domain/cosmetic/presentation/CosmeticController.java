@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.domain.cosmetic.application.CosmeticService;
 import me.jooeon.mybeauty.domain.cosmetic.model.Cosmetic;
+import me.jooeon.mybeauty.domain.cosmetic.model.dto.CosmeticDetailResponseDto;
 import me.jooeon.mybeauty.domain.cosmetic.model.dto.CosmeticSaveRequestDto;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
 import me.jooeon.mybeauty.global.common.util.CustomOAuth2UserUtil;
@@ -36,6 +37,19 @@ public class CosmeticController {
 
         return new BaseResponse<>(createCosmeticId);
 
-
     }
+
+    @GetMapping(value = "/cosmetics/{cosmeticId}")
+    public BaseResponse<CosmeticDetailResponseDto> getCosmeticDetailInfoById(@PathVariable("cosmeticId") Long cosmeticId,
+                                                                       @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("=== Cosmetic Controller getCosmeticInfoById 진입 ===");
+
+        Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
+
+        CosmeticDetailResponseDto responseDto = cosmeticService.getCosmeticDetailInfoById(cosmeticId);
+
+        return new BaseResponse<>(responseDto);
+    }
+
 }
