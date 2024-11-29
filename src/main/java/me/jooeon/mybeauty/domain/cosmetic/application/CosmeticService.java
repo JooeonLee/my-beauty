@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import me.jooeon.mybeauty.domain.cosmetic.model.Brand;
 import me.jooeon.mybeauty.domain.cosmetic.model.Category;
 import me.jooeon.mybeauty.domain.cosmetic.model.Cosmetic;
+import me.jooeon.mybeauty.domain.cosmetic.model.dto.CosmeticDetailResponseDto;
 import me.jooeon.mybeauty.domain.cosmetic.model.dto.CosmeticSaveRequestDto;
+import me.jooeon.mybeauty.domain.cosmetic.model.dto.brand.BrandResponseDto;
 import me.jooeon.mybeauty.domain.cosmetic.model.repository.BrandRepository;
 import me.jooeon.mybeauty.domain.cosmetic.model.repository.CategoryRepository;
 import me.jooeon.mybeauty.domain.cosmetic.model.repository.CosmeticRepository;
 import me.jooeon.mybeauty.domain.image.ImageService;
+import me.jooeon.mybeauty.domain.review.application.ReviewService;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewStatisticsDto;
 import me.jooeon.mybeauty.global.s3.model.dto.S3File;
 import me.jooeon.mybeauty.global.s3.utils.S3Util;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CosmeticService {
 
     private final ImageService imageService;
+    private final ReviewService reviewService;
 
     private final CosmeticRepository cosmeticRepository;
     private final BrandRepository brandRepository;
@@ -44,5 +49,26 @@ public class CosmeticService {
 
         Cosmetic savedCosmetic = cosmeticRepository.save(cosmetic);
         return savedCosmetic.getId();
+    }
+
+    @Transactional
+    public CosmeticDetailResponseDto getCosmeticDetailInfoById(long cosmeticId) {
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Cosmetic cosmetic = cosmeticRepository.findById(cosmeticId).orElseThrow(IllegalArgumentException::new);
+
+        ReviewStatisticsDto reviewStatistics = reviewService.getReviewStatisticsByCosmeticId(cosmetic.getId());
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Brand brand = brandRepository.findById(cosmetic.getId()).orElseThrow(IllegalArgumentException::new);
+
+        BrandResponseDto brandResponseDto = BrandResponseDto.from(brand);
+
+        return CosmeticDetailResponseDto.builder()
+                .brandInfo(brandResponseDto)
+                .reviewStatistics(reviewStatistics)
+                .cosmetic(cosmetic)
+                .build();
+
     }
 }
