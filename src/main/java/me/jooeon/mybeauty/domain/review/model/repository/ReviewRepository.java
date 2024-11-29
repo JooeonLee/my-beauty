@@ -2,6 +2,7 @@ package me.jooeon.mybeauty.domain.review.model.repository;
 
 import me.jooeon.mybeauty.domain.member.model.Member;
 import me.jooeon.mybeauty.domain.review.model.Review;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewStatisticsDto;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -25,4 +26,6 @@ public interface ReviewRepository {
     Slice<Review> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     public void deleteAllInBatch();
+
+    ReviewStatisticsDto findStatisticsByCosmeticId(Long cosmeticId);
 }
