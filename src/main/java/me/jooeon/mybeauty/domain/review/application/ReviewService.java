@@ -9,14 +9,20 @@ import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.domain.review.model.Review;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewSaveRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
+import me.jooeon.mybeauty.domain.review.model.dto.ReviewStatisticsDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.domain.review.model.mapper.ReviewMapper;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +80,31 @@ public class ReviewService {
                 .map(review -> ReviewMapper.toReviewResponseDto(review, 0));
 
         return new SliceResponse<>(reviewResponseDtoSlice.getContent(), reviewResponseDtoSlice.getPageable().getPageNumber(), reviewResponseDtoSlice.isLast());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewResponseDto> getUpTo3ReviewsByCosmeticId(long cosmeticId) {
+
+        // todo 커스텀 예외 생성 후 예외 처리  필요
+        Cosmetic cosmetic = cosmeticRepository.findById(cosmeticId).orElseThrow(IllegalArgumentException::new);
+        Pageable pageable = PageRequest.of(0, 3);
+
+        Slice<Review> reviewSlice = reviewRepository.findByCosmeticIdOrderByCreatedAtDesc(cosmetic.getId(), pageable);
+        List<Review> reviews = reviewSlice.getContent();
+
+        // todo likeCount 를 0이 아닌 실제 DB 에서 조회한 값으로 넣기
+        return reviews.stream()
+                .map(review -> ReviewMapper.toReviewResponseDto(review, 0))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewStatisticsDto getReviewStatisticsByCosmeticId(long cosmeticId) {
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Cosmetic cosmetic = cosmeticRepository.findById(cosmeticId).orElseThrow(IllegalArgumentException::new);
+
+        return reviewRepository.findStatisticsByCosmeticId(cosmetic.getId());
     }
 
     @Transactional(readOnly = true)
