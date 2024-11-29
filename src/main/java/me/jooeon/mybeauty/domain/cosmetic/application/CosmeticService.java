@@ -13,11 +13,17 @@ import me.jooeon.mybeauty.domain.cosmetic.model.repository.CosmeticRepository;
 import me.jooeon.mybeauty.domain.image.ImageService;
 import me.jooeon.mybeauty.domain.review.application.ReviewService;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewStatisticsDto;
+import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
 import me.jooeon.mybeauty.global.s3.model.dto.S3File;
 import me.jooeon.mybeauty.global.s3.utils.S3Util;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +57,7 @@ public class CosmeticService {
         return savedCosmetic.getId();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public CosmeticDetailResponseDto getCosmeticDetailInfoById(long cosmeticId) {
 
         // todo 커스텀 예외 생성 후 예외 처리 필요
@@ -70,5 +76,21 @@ public class CosmeticService {
                 .cosmetic(cosmetic)
                 .build();
 
+    }
+
+    @Transactional(readOnly = true)
+    public SliceResponse<CosmeticDetailResponseDto> getCosmeticDetailInfoByCategoryId(long categoryId, Pageable pageable) {
+
+        Slice<Object[]> results = cosmeticRepository.findWithReviewStatsAndBrandByCategoryId(categoryId, pageable);
+
+        List<CosmeticDetailResponseDto> responseDtos = results.stream()
+                .map(result -> CosmeticDetailResponseDto.builder()
+                        .cosmetic((Cosmetic) result[0])
+                        .brandInfo(BrandResponseDto.from((Brand) result[1]))
+                        .reviewStatistics(new ReviewStatisticsDto((double) result[2], (long) result[3]))
+                        .build())
+                .toList();
+
+        return new SliceResponse<>(responseDtos, results.getNumber(), results.isLast());
     }
 }
