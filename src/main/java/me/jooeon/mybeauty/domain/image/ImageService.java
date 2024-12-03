@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.domain.Image;
+package me.jooeon.mybeauty.domain.image;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import net.coobird.thumbnailator.Thumbnails;
@@ -32,15 +31,18 @@ public class ImageService {
     private String removeBgApiKey;
 
     public String upload(MultipartFile file) {
-        MultipartFile bgRemovedMultipartFile = new CustomMultipartFile(
-                file.getName(),
-                file.getOriginalFilename(),
-                file.getContentType(),
-                removeBackground(file)
-        );
+//        MultipartFile bgRemovedMultipartFile = new CustomMultipartFile(
+//                file.getName(),
+//                file.getOriginalFilename(),
+//                file.getContentType(),
+//                removeBackground(file)
+//        );
 
 
-        S3File s3File = s3Util.uploadMultipartFile(bgRemovedMultipartFile);
+
+//        S3File s3File = s3Util.uploadMultipartFile(bgRemovedMultipartFile);
+        S3File s3File = s3Util.uploadMultipartFile(file);
+
 
 //        try {
 //            MultipartFile resizedMultipartFile = new CustomMultipartFile(

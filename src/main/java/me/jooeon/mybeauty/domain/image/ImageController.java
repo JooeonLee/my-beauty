@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.domain.Image;
+package me.jooeon.mybeauty.domain.image;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
