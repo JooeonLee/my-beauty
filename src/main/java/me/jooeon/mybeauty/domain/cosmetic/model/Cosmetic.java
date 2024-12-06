@@ -67,4 +67,8 @@ public class Cosmetic extends BaseEntity {
         this.cosmeticTags = new HashSet<>();
         this.reviews = new HashSet<>();
     }
+
+    protected void setCategory(Category category) {
+        this.category = category;
+    }
 }
