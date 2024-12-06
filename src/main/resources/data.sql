@@ -21,7 +21,26 @@ values ('TestBrand1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
 insert into category(parent_category_id, name, created_at, updated_at, status)
 values (NULL, 'TestCategory1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
        (NULL, 'TestCategory2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
-       (NULL, 'TestCategory3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
+       (NULL, 'TestCategory3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
+       (null, '스킨케어', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (null, '클렌징', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '스킨/토너', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '에센스/세럼', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '미스트', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '멀티밤', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '로션/에멀전', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '크림', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (4, '페이스오일', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (5, '페이셜', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (5, '클렌저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (5, '메이크업클렌저', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (5, '포인트리무버', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (5, '각질케어', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (5, '클렌징도구', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,'ACTIVE'),
+       (1, 'TestChildCategory1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
+       (1, 'TestChildCategory2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
+       (1, 'TestChildCategory3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
+       (1, 'TestChildCategory4', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE');
 
 insert into cosmetic(brand_id, category_id, name, price, capacity, explanation, cosmetic_image, created_at, updated_at, status)
 values (1, 1, 'TestCosmetic1', 10000, 100, '테스트를 위한 화장품 데이터1', '테스트 이미지 URL', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE'),
