@@ -3,6 +3,7 @@ package me.jooeon.mybeauty.domain.likes.model;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import me.jooeon.mybeauty.domain.cosmetic.model.Cosmetic;
@@ -10,10 +11,11 @@ import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.domain.member.model.Member;
 
-@MappedSuperclass
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "likes_type", discriminatorType = DiscriminatorType.STRING)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @SuperBuilder
 public class Likes extends BaseEntity {
 
@@ -34,5 +36,13 @@ public class Likes extends BaseEntity {
     public Likes(Status status, Member member) {
         this.status = status;
         this.member = member;
+    }
+
+    public void softDelete() {
+        this.status = Status.DELETED;
+    }
+
+    public void restore() {
+        this.status = Status.ACTIVE;
     }
 }
