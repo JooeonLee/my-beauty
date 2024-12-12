@@ -14,6 +14,7 @@ import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.domain.review.model.mapper.ReviewMapper;
 import me.jooeon.mybeauty.domain.review.model.repository.ReviewRepository;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -83,6 +84,27 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
+    public SliceResponse<ReviewResponseDto> getReviewByCosmeticId2(long cosmeticId, Pageable pageable) {
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Cosmetic cosmetic = cosmeticRepository.findById(cosmeticId).orElseThrow(IllegalArgumentException::new);
+
+        Slice<Object[]> resultSlice = reviewRepository.findByCosmeticIdOrderByCreatedAtDesc2(cosmetic.getId(), Status.ACTIVE, pageable);
+
+
+        // 조회한 Object[] 바탕으로 response dto 생성
+        Slice<ReviewResponseDto> reviewResponseDtoSlice = resultSlice
+                .map(results -> {
+                    Review review = (Review) results[0];
+                    long likeCount = (long) results[1];
+                    return ReviewMapper.toReviewResponseDto(review, likeCount);
+                });
+
+        return new SliceResponse<>(reviewResponseDtoSlice.getContent(), reviewResponseDtoSlice.getPageable().getPageNumber(), reviewResponseDtoSlice.isLast());
+
+    }
+
+    @Transactional(readOnly = true)
     public List<ReviewResponseDto> getUpTo3ReviewsByCosmeticId(long cosmeticId) {
 
         // todo 커스텀 예외 생성 후 예외 처리  필요
@@ -124,6 +146,25 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
+    public SliceResponse<ReviewWithCosmeticResponseDto> getReviewByMemberId2(long memberId, Pageable pageable) {
+
+        // todo 커스텀 예외 생성 후 예외 처리 필요
+        Member member = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+
+        Slice<Object[]> resultSlice = reviewRepository.findByMemberIdOrderByCreatedAtDesc2(member.getId(), Status.ACTIVE, pageable);
+
+        // 조회한 Object[] 바탕으로 response dto 생성
+        Slice<ReviewWithCosmeticResponseDto> reviewWithCosmeticResponseDtoSlice = resultSlice
+                .map(results -> {
+                    Review review = (Review) results[0];
+                    long likeCount = (long) results[1];
+                    return ReviewMapper.toReviewWithCosmeticResponseDto(review, likeCount);
+                });
+
+        return new SliceResponse<>(reviewWithCosmeticResponseDtoSlice.getContent(), reviewWithCosmeticResponseDtoSlice.getNumber(), reviewWithCosmeticResponseDtoSlice.isLast());
+    }
+
+    @Transactional(readOnly = true)
     public SliceResponse<ReviewWithCosmeticResponseDto> getReview(Pageable pageable) {
 
         Slice<Review> reviewSlice = reviewRepository.findAllByOrderByCreatedAtDesc(pageable);
@@ -132,6 +173,22 @@ public class ReviewService {
         // 조회한 review 바탕으로 response dto 생성
         Slice<ReviewWithCosmeticResponseDto> reviewWithCosmeticResponseDtoSlice = reviewSlice
                 .map(review -> ReviewMapper.toReviewWithCosmeticResponseDto(review, 0));
+
+        return new SliceResponse<>(reviewWithCosmeticResponseDtoSlice.getContent(), reviewWithCosmeticResponseDtoSlice.getNumber(), reviewWithCosmeticResponseDtoSlice.isLast());
+    }
+
+    @Transactional(readOnly = true)
+    public SliceResponse<ReviewWithCosmeticResponseDto> getReview2(Pageable pageable) {
+
+        Slice<Object[]> resultSlice = reviewRepository.findAllByOrderByCreatedAtDesc2(Status.ACTIVE, pageable);
+
+        // 조회한 review 바탕으로 response dto 생성
+        Slice<ReviewWithCosmeticResponseDto> reviewWithCosmeticResponseDtoSlice = resultSlice
+                .map(results -> {
+                    Review review = (Review) results[0];
+                    long likeCount = (long) results[1];
+                    return ReviewMapper.toReviewWithCosmeticResponseDto(review, likeCount);
+                });
 
         return new SliceResponse<>(reviewWithCosmeticResponseDtoSlice.getContent(), reviewWithCosmeticResponseDtoSlice.getNumber(), reviewWithCosmeticResponseDtoSlice.isLast());
     }

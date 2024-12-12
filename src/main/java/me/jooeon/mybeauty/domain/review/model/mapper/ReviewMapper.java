@@ -33,6 +33,7 @@ public class ReviewMapper {
         return ReviewResponseDto.builder()
                 .memberProfile(memberSimpleProfileDto)
                 .daysAgo(daysAgo)
+                .reviewId(review.getId())
                 .star(review.getStar())
                 .oneLineReview(review.getOneLineReview())
                 .reviewComment(review.getContent())

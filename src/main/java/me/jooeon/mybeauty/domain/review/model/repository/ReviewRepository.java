@@ -18,12 +18,15 @@ public interface ReviewRepository {
     public <S extends Review> S save(S entity);
 
     Slice<Review> findByCosmeticIdOrderByCreatedAtDesc(Long cosmeticId, Pageable pageable);
+    Slice<Object[]> findByCosmeticIdOrderByCreatedAtDesc2(Long cosmeticId, Status status, Pageable pageable);
 
     Slice<Review> findByMemberIdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
+    Slice<Object[]> findByMemberIdOrderByCreatedAtDesc2(Long memberId, Status status, Pageable pageable);
 
     Slice<Review> findByMemberIdAndStatusOrderByCreatedAtDesc(Long memberId, Status status, Pageable pageable);
 
     Slice<Review> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    Slice<Object[]> findAllByOrderByCreatedAtDesc2(Status status, Pageable pageable);
 
     public void deleteAllInBatch();
 

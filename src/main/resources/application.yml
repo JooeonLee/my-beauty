@@ -39,13 +39,13 @@ logging:
   level:
     org:
       hibernate:
-        sql: debug
+        #sql: debug
         type.descriptor.sql: trace
 
       springframework:
-        security: DEBUG
-        security.oauth2: DEBUG
-        web: DEBUG
+        #security: DEBUG
+        #security.oauth2: DEBUG
+        #web: DEBUG
 
 
 # aws s3 설정 추가 예정
