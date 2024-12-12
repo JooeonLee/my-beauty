@@ -74,7 +74,8 @@ public class ReviewController {
         Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        SliceResponse<ReviewResponseDto> responseDto = reviewService.getReviewByCosmeticId(cosmeticId, pageRequest);
+        //SliceResponse<ReviewResponseDto> responseDto = reviewService.getReviewByCosmeticId(cosmeticId, pageRequest);
+        SliceResponse<ReviewResponseDto> responseDto = reviewService.getReviewByCosmeticId2(cosmeticId, pageRequest);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, responseDto);
     }
 
@@ -87,7 +88,8 @@ public class ReviewController {
         Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReviewByMemberId(memberId, pageRequest);
+        //SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReviewByMemberId(memberId, pageRequest);
+        SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReviewByMemberId2(memberId, pageRequest);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, responseDto);
     }
 
@@ -101,7 +103,8 @@ public class ReviewController {
         Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReview(pageRequest);
+        //SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReview(pageRequest);
+        SliceResponse<ReviewWithCosmeticResponseDto> responseDto = reviewService.getReview2(pageRequest);
         return new BaseResponse<>(BaseResponseStatus.SUCCESS, responseDto);
     }
 }
