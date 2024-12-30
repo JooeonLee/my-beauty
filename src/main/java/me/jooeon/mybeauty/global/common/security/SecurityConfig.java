@@ -1,10 +1,13 @@
-package me.jooeon.mybeauty.global.common.config;
+package me.jooeon.mybeauty.global.common.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import me.jooeon.mybeauty.domain.auth.filter.JwtFilter;
 import me.jooeon.mybeauty.domain.auth.application.CustomOAuth2UserService;
 import me.jooeon.mybeauty.domain.auth.utils.JwtUtil;
 import me.jooeon.mybeauty.domain.auth.presentation.handler.CustomAuthenticationSuccessHandler;
+import me.jooeon.mybeauty.domain.member.model.Role;
+import me.jooeon.mybeauty.global.common.exception.handler.FilterExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +23,8 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final JwtUtil jwtUtil;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public JwtFilter jwtFilter() {
@@ -36,8 +41,23 @@ public class SecurityConfig {
                 .httpBasic((auth) -> auth.disable()); // HTTP 헤더 인증 방식 비활성화
 
         http
-                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
-        //.addFilterBefore(new FilterExceptionHandler)
+                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new FilterExceptionHandler(new ObjectMapper()), JwtFilter.class);
+
+        http
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint) // 인증 실패 처리
+                        .accessDeniedHandler(customAccessDeniedHandler) // 권한 부족 처리
+                );
+
+        http
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/", "/api-json/**", "/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                        .requestMatchers("/oauth2/**","/login/**", "/reissue", "/api/login/success", "/docs/**", "/app/api/image/**").permitAll()
+                        //.anyRequest().authenticated() // 이상함
+                        .anyRequest().hasRole(Role.MEMBER.getValue())
+                );
+
 
         // oauth2
         http
@@ -45,15 +65,6 @@ public class SecurityConfig {
                         .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService)))
                         .successHandler(customAuthenticationSuccessHandler));
-
-        http
-                .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/api-json/**", "/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("/oauth2/**","/login/**", "/reissue", "/api/login/success", "/docs/**", "/app/api/image/**").permitAll()
-                        //.anyRequest().authenticated() // 이상함
-                        .anyRequest().hasRole("MEMBER")
-                );
-
 
         return http.build();
     }
