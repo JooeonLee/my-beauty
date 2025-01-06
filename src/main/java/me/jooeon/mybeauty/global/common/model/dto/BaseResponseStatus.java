@@ -23,15 +23,22 @@ public enum BaseResponseStatus {
 //    // 입력값 예외
 //    INVALID_REQUEST(false, 2000, "잘못된 요청이 존재합니다."),
 //
-//    // 2100 : JWT 예외 - Filter에서 처리
-//    ACCESS_DENIED(false, 2001, "권한이 없는 유저의 접근입니다."),
-//    EMPTY_AUTHORIZATION_HEADER(false, 2002, "Authorization 헤더가 존재하지 않습니다."),
-    EXPIRED_ACCESS_TOKEN(false, HttpStatus.UNAUTHORIZED, 2003, "이미 만료된 Access 토큰입니다."),
-//    UNSUPPORTED_TOKEN_TYPE(false, 2004, "지원되지 않는 토큰 형식입니다."),
-    MALFORMED_TOKEN_TYPE(false, HttpStatus.UNAUTHORIZED,2005, "인증 토큰이 올바르게 구성되지 않았습니다."),
-//    INVALID_SIGNATURE_JWT(false, 2006, "인증 시그니처가 올바르지 않습니다"),
-    INVALID_TOKEN_TYPE(false, HttpStatus.UNAUTHORIZED, 2007, "잘못된 토큰입니다."),
-    INVALID_ACCESS_TOKEN(false, HttpStatus.UNAUTHORIZED, 2008, "잘못된 access token 입니다."),
+    // 2050 : 인증 예외
+    // 권한 부족
+    ACCESS_DENIED(false, HttpStatus.FORBIDDEN, 2051, "권한이 없는 유저의 접근입니다."),
+    NO_PERMISSION_TO_ACCESS_RESOURCE(false, HttpStatus.FORBIDDEN, 2052, "해당 리소스에 대한 접근 권한이 없습니다."),
+
+    // 인증 실패
+    UNAUTHORIZED_ACCESS(false, HttpStatus.UNAUTHORIZED, 2053, "로그인이 필요합니다."),
+
+    // 2100 : JWT 예외 - Filter에서 처리
+    EMPTY_AUTHORIZATION_HEADER(false, HttpStatus.UNAUTHORIZED,1002, "Authorization 헤더가 존재하지 않습니다."),
+    EXPIRED_ACCESS_TOKEN(false, HttpStatus.UNAUTHORIZED, 2103, "이미 만료된 Access 토큰입니다."),
+    UNSUPPORTED_TOKEN_TYPE(false, HttpStatus.UNAUTHORIZED,2104, "지원되지 않는 토큰 형식입니다."),
+    MALFORMED_TOKEN_TYPE(false, HttpStatus.UNAUTHORIZED,2105, "인증 토큰이 올바르게 구성되지 않았습니다."),
+    INVALID_SIGNATURE_JWT(false, HttpStatus.UNAUTHORIZED, 2106, "인증 시그니처가 올바르지 않습니다"),
+    INVALID_TOKEN_TYPE(false, HttpStatus.UNAUTHORIZED, 2107, "잘못된 토큰입니다."),
+    INVALID_ACCESS_TOKEN(false, HttpStatus.UNAUTHORIZED, 2108, "잘못된 access token 입니다."),
 //
 //    // 2200 : Refresh Token 예외 - Exception Handler에서 처리
 //
