@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import me.jooeon.mybeauty.domain.tag.model.Tag;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 
