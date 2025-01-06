@@ -1,9 +1,10 @@
-package me.jooeon.mybeauty.domain.cosmetic.model;
+package me.jooeon.mybeauty.domain.tag.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import me.jooeon.mybeauty.domain.cosmetic.model.CosmeticTag;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 
@@ -23,6 +24,10 @@ public class Tag extends BaseEntity {
     private String value;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "tag_type")
+    private TagType type;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
