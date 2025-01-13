@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
 import net.minidev.json.JSONObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -31,5 +32,14 @@ public class GlobalExceptionHandler {
         JSONObject result = new JSONObject();
         result.put(e.getName(), e.getMessage());
         return new BaseResponse<>(METHOD_ARGUMENT_TYPE_MISMATCH, result);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public BaseResponse<?> handleMethodNotAllowedException(HttpRequestMethodNotSupportedException e) {
+
+        JSONObject result = new JSONObject();
+        result.put(e.getMethod(), e.getMessage());
+        return new BaseResponse<>(HTTP_METHOD_TYPE_MISMATCH, result);
     }
 }

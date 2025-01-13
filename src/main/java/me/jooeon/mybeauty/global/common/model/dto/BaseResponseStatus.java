@@ -49,7 +49,8 @@ public enum BaseResponseStatus {
 //
 //    // 2500 : RequestParam exception
 //    EMPTY_REQUEST_PARAMETER(false, 2098, "Request Parameter가 존재하지 않습니다."),
-    METHOD_ARGUMENT_TYPE_MISMATCH(false, HttpStatus.UNAUTHORIZED, 2099, "Request Parameter나 Path Variable의 유형이 불일치합니다.");
+    METHOD_ARGUMENT_TYPE_MISMATCH(false, HttpStatus.UNAUTHORIZED, 2099, "Request Parameter나 Path Variable의 유형이 불일치합니다."),
+    HTTP_METHOD_TYPE_MISMATCH(false, HttpStatus.METHOD_NOT_ALLOWED, 2100, "지원되지 않는 Http Method입니다.");
 //
 //
 //    // 2600 : RecordException
