@@ -10,7 +10,7 @@ import me.jooeon.mybeauty.domain.member.model.dto.MemberMyPageResponseDto;
 import me.jooeon.mybeauty.domain.member.model.dto.MemberProfileUpdateRequestDto;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
-import me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 import me.jooeon.mybeauty.global.common.util.CustomOAuth2UserUtil;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

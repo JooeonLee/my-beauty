@@ -12,7 +12,7 @@ import me.jooeon.mybeauty.domain.auth.model.AuthDto;
 import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.domain.member.model.Role;
 import me.jooeon.mybeauty.global.common.exception.exception.JwtException;
-import me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

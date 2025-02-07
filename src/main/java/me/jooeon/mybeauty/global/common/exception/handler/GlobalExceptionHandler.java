@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import static me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus.*;
+import static me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus.*;
 
 @RestControllerAdvice
 @Slf4j

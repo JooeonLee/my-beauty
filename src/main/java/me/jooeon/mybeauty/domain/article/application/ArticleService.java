@@ -2,11 +2,14 @@ package me.jooeon.mybeauty.domain.article.application;
 
 import lombok.RequiredArgsConstructor;
 import me.jooeon.mybeauty.domain.article.model.Article;
+import me.jooeon.mybeauty.domain.article.model.ArticleType;
 import me.jooeon.mybeauty.domain.article.model.dto.article.ArticleSaveRequestDto;
 import me.jooeon.mybeauty.domain.article.model.repository.ArticleRepository;
 import me.jooeon.mybeauty.domain.image.ImageService;
 import me.jooeon.mybeauty.domain.member.model.Member;
+import me.jooeon.mybeauty.domain.member.model.dto.ExternalMemberDto;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
+import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.s3.model.ImagePrefix;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,17 +25,19 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public long createArticle(ArticleSaveRequestDto requestDto, long memberId, MultipartFile articleImage) {
+    public long createArticle(String title, String content, Member member, String articleImageUrl) {
 
-        // todo 커스텀 예외 생성 후 예외 처리 필요
-        Member member = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+        Article article = Article.builder()
+                .title(title)
+                .content(content)
+                .member(member)
+                .articleImage(articleImageUrl)
+                .articleType(ArticleType.ARTICLE)
+                .status(Status.ACTIVE)
+                .build();
 
-        String articleImageUrl = null;
-        if (!articleImage.isEmpty()) {
-            articleImageUrl = imageService.upload(articleImage, ImagePrefix.ARTICLE);
-        }
-
-        Article article = requestDto.toEntity(member, articleImageUrl);
+        // todo 검증 코드 추가
+        //validate(article);
 
         Article savedArticle = articleRepository.save(article);
         return savedArticle.getId();

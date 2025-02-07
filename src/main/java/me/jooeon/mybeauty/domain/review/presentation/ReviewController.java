@@ -8,7 +8,7 @@ import me.jooeon.mybeauty.domain.review.model.dto.ReviewSaveRequestDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewResponseDto;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewWithCosmeticResponseDto;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
-import me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
 import me.jooeon.mybeauty.global.common.util.CustomOAuth2UserUtil;
 import org.springframework.data.domain.PageRequest;

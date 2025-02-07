@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.global.common.model.dto;
+package me.jooeon.mybeauty.global.common.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

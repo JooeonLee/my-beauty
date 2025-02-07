@@ -2,6 +2,7 @@ package me.jooeon.mybeauty.domain.article.presentation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.jooeon.mybeauty.domain.article.application.ArticleApplicationService;
 import me.jooeon.mybeauty.domain.article.application.ArticleService;
 import me.jooeon.mybeauty.domain.article.model.Article;
 import me.jooeon.mybeauty.domain.article.model.dto.article.ArticleSaveRequestDto;
@@ -22,9 +23,10 @@ import java.awt.*;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final ArticleApplicationService articleApplicationService;
 
     @PostMapping(value = "/articles", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public BaseResponse createArticle(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+    public BaseResponse createArticle2(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
                                       @RequestPart("requestDto") ArticleSaveRequestDto requestDto,
                                       @RequestPart(value = "articleImage", required = false) MultipartFile articleImage) {
 
@@ -32,7 +34,7 @@ public class ArticleController {
 
         Long memberId = CustomOAuth2UserUtil.extractMemberId(customOAuth2User);
 
-        Long createArticleId = articleService.createArticle(requestDto, memberId, articleImage);
+        Long createArticleId = articleApplicationService.createArticle(requestDto, memberId, articleImage);
 
         return new BaseResponse(createArticleId);
     }
