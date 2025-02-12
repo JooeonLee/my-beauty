@@ -44,7 +44,7 @@ public class S3Util {
 
             s3Client.putObject(putObjectRequest, RequestBody.fromBytes(s3File.getBytes()));
             log.info("S3 파일 업로드 완료. [{}]", key);
-            return s3File.putObjectUrl(getUrl(s3File.getFilename()));
+            return s3File.putObjectUrl(getUrl(key));
         } catch (Exception e) {
             e.printStackTrace();
 
