@@ -20,7 +20,10 @@ public class CommentApplicationService {
     }
 
     public long createComment(CommentSaveRequestDto requestDto, long articleId, long memberId) {
+        ExternalMemberDto externalMemberDto = memberPort.getExternalMemberById(memberId);
 
-        return 100L;
+        Article article = articleService.getArticleById(articleId);
+
+        return commentService.createComment(requestDto, externalMemberDto.getMemberId(), article);
     }
 }
