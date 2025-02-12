@@ -9,6 +9,8 @@ import me.jooeon.mybeauty.domain.image.ImageService;
 import me.jooeon.mybeauty.domain.member.model.Member;
 import me.jooeon.mybeauty.domain.member.model.dto.ExternalMemberDto;
 import me.jooeon.mybeauty.domain.member.model.repository.MemberRepository;
+import me.jooeon.mybeauty.global.common.exception.exception.article.ArticleException;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.s3.model.ImagePrefix;
 import org.springframework.stereotype.Service;
@@ -38,5 +40,10 @@ public class ArticleService {
 
         Article savedArticle = articleRepository.save(article);
         return savedArticle.getId();
+    }
+
+    public Article getArticleById(long articleId) {
+        return articleRepository.findById(articleId)
+                .orElseThrow(() -> new ArticleException(BaseResponseStatus.NONE_ARTICLE));
     }
 }
