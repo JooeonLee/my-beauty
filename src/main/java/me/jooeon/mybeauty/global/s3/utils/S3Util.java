@@ -2,6 +2,7 @@ package me.jooeon.mybeauty.global.s3.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.jooeon.mybeauty.global.s3.model.ImagePrefix;
 import me.jooeon.mybeauty.global.s3.model.dto.S3File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,23 +27,24 @@ public class S3Util {
     @Value("${aws.s3.bucket}")
     private String bucket;
 
-    public S3File uploadMultipartFile(MultipartFile file) {
+    public S3File uploadMultipartFile(MultipartFile file, ImagePrefix imagePrefix) {
         log.info("S3 파일 업로드 시작. [{} of {}]", file.getOriginalFilename(), file.getContentType());
-        return uploadS3File(s3FileUtil.convert(file));
+        return uploadS3File(s3FileUtil.convert(file), imagePrefix);
     }
 
-    public S3File uploadS3File(S3File s3File) {
+    public S3File uploadS3File(S3File s3File, ImagePrefix imagePrefix) {
         try {
+            String key = imagePrefix.getValue() + s3File.getFilename();
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucket)
-                    .key(s3File.getFilename())
+                    .key(key)
                     .contentType(s3File.getContentType().getMimeType())
                     .contentLength(s3File.getContentLength())
                     .build();
 
             s3Client.putObject(putObjectRequest, RequestBody.fromBytes(s3File.getBytes()));
-            log.info("S3 파일 업로드 완료. [{}]", s3File.getFilename());
-            return s3File.putObjectUrl(getUrl(s3File.getFilename()));
+            log.info("S3 파일 업로드 완료. [{}]", key);
+            return s3File.putObjectUrl(getUrl(key));
         } catch (Exception e) {
             e.printStackTrace();
 

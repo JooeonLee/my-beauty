@@ -1,7 +1,7 @@
 package me.jooeon.mybeauty.global.common.exception.exception;
 
 import lombok.Getter;
-import me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 
 @Getter
 public class BusinessException extends RuntimeException {

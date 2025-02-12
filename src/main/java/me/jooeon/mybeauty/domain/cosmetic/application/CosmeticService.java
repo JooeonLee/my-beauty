@@ -14,6 +14,7 @@ import me.jooeon.mybeauty.domain.image.ImageService;
 import me.jooeon.mybeauty.domain.review.application.ReviewService;
 import me.jooeon.mybeauty.domain.review.model.dto.ReviewStatisticsDto;
 import me.jooeon.mybeauty.global.common.model.dto.SliceResponse;
+import me.jooeon.mybeauty.global.s3.model.ImagePrefix;
 import me.jooeon.mybeauty.global.s3.model.dto.S3File;
 import me.jooeon.mybeauty.global.s3.utils.S3Util;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,7 @@ public class CosmeticService {
         Category category = categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new);
 
         // todo 커스텀 예외 생성 후 예외 처리 필요
-        String imageUrl = imageService.upload(file);
+        String imageUrl = imageService.upload(file, ImagePrefix.COSMETIC);
 
         Cosmetic cosmetic = requestDto.toEntity(brand, category, imageUrl);
 

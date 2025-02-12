@@ -2,6 +2,7 @@ package me.jooeon.mybeauty.domain.image;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.jooeon.mybeauty.global.s3.model.ImagePrefix;
 import me.jooeon.mybeauty.global.s3.model.dto.S3File;
 import me.jooeon.mybeauty.global.s3.utils.S3Util;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -30,7 +31,7 @@ public class ImageService {
     @Value("${remove-bg.api-key}")
     private String removeBgApiKey;
 
-    public String upload(MultipartFile file) {
+    public String upload(MultipartFile file, ImagePrefix imagePrefix) {
 //        MultipartFile bgRemovedMultipartFile = new CustomMultipartFile(
 //                file.getName(),
 //                file.getOriginalFilename(),
@@ -41,7 +42,7 @@ public class ImageService {
 
 
 //        S3File s3File = s3Util.uploadMultipartFile(bgRemovedMultipartFile);
-        S3File s3File = s3Util.uploadMultipartFile(file);
+        S3File s3File = s3Util.uploadMultipartFile(file, imagePrefix);
 
 
 //        try {

@@ -75,7 +75,7 @@ public class CosmeticServiceTest {
         long expectedCosmeticId = 1L;
         given(brandRepository.findById(any())).willReturn(Optional.of(testBrand));
         given(categoryRepository.findById(any())).willReturn(Optional.of(testCategory));
-        given(imageService.upload(any(MockMultipartFile.class))).willReturn(testSavedImageUrl);
+        given(imageService.upload(any(MockMultipartFile.class), any())).willReturn(testSavedImageUrl);
         given(cosmeticRepository.save(any(Cosmetic.class)))
                 .willAnswer(invocationOnMock -> {
                     Cosmetic cosmetic = invocationOnMock.getArgument(0);

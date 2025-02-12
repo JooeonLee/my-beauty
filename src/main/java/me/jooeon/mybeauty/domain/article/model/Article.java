@@ -1,9 +1,8 @@
 package me.jooeon.mybeauty.domain.article.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import me.jooeon.mybeauty.domain.member.model.Member;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.likes.model.ArticleLikes;
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Article extends BaseEntity {
@@ -32,8 +33,9 @@ public class Article extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String articleVideo;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String articleType;
+    private ArticleType articleType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -41,11 +43,16 @@ public class Article extends BaseEntity {
 
     // 연관 관계 mapping
     @OneToMany(mappedBy = "article")
+    @Builder.Default
     private List<ArticleLikes> articleLikesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "article")
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "article")
+    @Builder.Default
     private List<Scrap> scraps = new ArrayList<>();
+
+    private long memberId;
 }

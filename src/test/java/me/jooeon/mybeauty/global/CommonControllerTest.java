@@ -11,9 +11,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.ActiveProfiles;
 
 @Import(TestSecurityConfig.class)
-public class CommonControllerTest {
+@ActiveProfiles({"test", "secret"})
+public abstract class CommonControllerTest extends RestDocsTestSupport{
 
     @MockBean
     CustomOAuth2User customOAuth2User;
@@ -22,13 +24,12 @@ public class CommonControllerTest {
     AuthenticationUtil authenticationUtil;
 
     @BeforeEach
-    void setUp() {
+    void setUpAuthentication() {
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(AuthDto.builder()
                 .memberId(1L)
                 .providerId("테스트_프로바이더_Id")
                 .role(Role.fromRole("ROLE_MEMBER"))
-                //.build(), authorities);
                 .build());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());

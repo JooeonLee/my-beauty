@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 
-import static me.jooeon.mybeauty.global.common.model.dto.BaseResponseStatus.*;
+import static me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus.*;
 
 @Getter
 @JsonPropertyOrder({"isSuccess", "responseCode", "responseMessage", "result"})
