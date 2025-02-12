@@ -18,6 +18,17 @@ public class CommentService {
     @Transactional
     public long createComment(CommentSaveRequestDto requestDto, long memberId, Article article) {
 
-        return 100L;
+        Comment comment = Comment.builder()
+                .memberId(memberId)
+                .article(article)
+                .content(requestDto.getContent())
+                .status(Status.ACTIVE)
+                .build();
+
+        // todo 검증 코드 추가
+        // validate(comment);
+
+        Comment savedComment = commentRepository.save(comment);
+        return savedComment.getId();
     }
 }
