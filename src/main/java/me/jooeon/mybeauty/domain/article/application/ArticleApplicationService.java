@@ -1,5 +1,6 @@
 package me.jooeon.mybeauty.domain.article.application;
 
+import lombok.extern.slf4j.Slf4j;
 import me.jooeon.mybeauty.domain.article.model.dto.article.ArticleSaveRequestDto;
 import me.jooeon.mybeauty.domain.image.ImageService;
 import me.jooeon.mybeauty.domain.member.application.MemberPort;
@@ -29,7 +30,7 @@ public class ArticleApplicationService {
             articleImageUrl = imageService.upload(articleImage, ImagePrefix.ARTICLE);
         }
 
-        return articleService.createArticle(requestDto.getTitle(), requestDto.getContent(), member, articleImageUrl);
+        return articleService.createArticle(requestDto.getTitle(), requestDto.getContent(), member.getId(), articleImageUrl);
 
     }
 }

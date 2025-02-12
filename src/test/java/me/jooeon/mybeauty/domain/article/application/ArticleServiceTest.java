@@ -19,6 +19,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -54,6 +55,7 @@ public class ArticleServiceTest {
         String testSavedImageUrl = "테스트_아티클_이미지_URL";
 
         Member testMember = MemberFixture.멤버();
+        long testMemberId = 1L;
 
         long expectedArticleId = 1L;
         given(imageService.upload(any(MockMultipartFile.class), any())).willReturn(testSavedImageUrl);
@@ -66,7 +68,9 @@ public class ArticleServiceTest {
                 });
 
         // when
-        long actualMemberId = 1L;
-        long actualArticleId = articleService.createArticle(requestDto, actualMemberId, testFile);
+        long actualArticleId = articleService.createArticle(requestDto.getTitle(), requestDto.getContent(), testMemberId, testSavedImageUrl);
+
+        // then
+        assertThat(actualArticleId).isEqualTo(expectedArticleId);
     }
 }

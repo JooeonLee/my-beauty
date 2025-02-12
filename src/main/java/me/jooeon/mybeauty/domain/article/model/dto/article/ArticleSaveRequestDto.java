@@ -23,9 +23,9 @@ public class ArticleSaveRequestDto {
         this.content = content;
     }
 
-    public Article toEntity(Member member, String articleImageUrl) {
+    public Article toEntity(long memberId, String articleImageUrl) {
         return Article.builder()
-                .member(member)
+                .memberId(memberId)
                 .title(title)
                 .content(content)
                 .articleImage(articleImageUrl)

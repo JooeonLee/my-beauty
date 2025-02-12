@@ -54,8 +54,5 @@ public class Article extends BaseEntity {
     @Builder.Default
     private List<Scrap> scraps = new ArrayList<>();
 
-    // 단방향 연관 관계
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private long memberId;
 }

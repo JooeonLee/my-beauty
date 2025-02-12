@@ -19,18 +19,15 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ArticleService {
 
-    private final ImageService imageService;
-
-    private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public long createArticle(String title, String content, Member member, String articleImageUrl) {
+    public long createArticle(String title, String content, long memberId, String articleImageUrl) {
 
         Article article = Article.builder()
                 .title(title)
                 .content(content)
-                .member(member)
+                .memberId(memberId)
                 .articleImage(articleImageUrl)
                 .articleType(ArticleType.ARTICLE)
                 .status(Status.ACTIVE)
