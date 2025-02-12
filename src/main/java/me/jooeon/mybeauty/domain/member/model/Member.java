@@ -63,9 +63,9 @@ public class Member extends BaseEntity {
     @Builder.Default
     private List<Likes> likesList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    @Builder.Default
-    private List<Comment> comments = new ArrayList<>();
+//    @OneToMany(mappedBy = "member")
+//    @Builder.Default
+//    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     @Builder.Default
