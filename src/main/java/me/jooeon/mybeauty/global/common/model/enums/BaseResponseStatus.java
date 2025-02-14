@@ -43,7 +43,6 @@ public enum BaseResponseStatus {
 //    // 2200 : Refresh Token 예외 - Exception Handler에서 처리
 //
 //
-//    // 2300 : MemberException
 //
 //    // 2400 : ReviewException
 //
@@ -52,8 +51,13 @@ public enum BaseResponseStatus {
     METHOD_ARGUMENT_TYPE_MISMATCH(false, HttpStatus.UNAUTHORIZED, 2099, "Request Parameter나 Path Variable의 유형이 불일치합니다."),
     HTTP_METHOD_TYPE_MISMATCH(false, HttpStatus.METHOD_NOT_ALLOWED, 2100, "지원되지 않는 Http Method입니다."),
 
-    // 2900 : Member Exception
-    NONE_MEMBER(false, HttpStatus.BAD_REQUEST, 2901, "존재하지 않는 회원입니다.");
+    // 2300 : Member Exception
+    NONE_MEMBER(false, HttpStatus.BAD_REQUEST, 2301, "존재하지 않는 회원입니다."),
+
+    // 2400 : Article Exception
+    NONE_ARTICLE(false, HttpStatus.BAD_REQUEST, 2401, "존재하지 않는 게시글입니다.");
+
+    // 2910 :
 //
 //
 //    // 2600 : RecordException
