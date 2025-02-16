@@ -1,6 +1,7 @@
 package me.jooeon.mybeauty.global.common.util;
 
 import lombok.NoArgsConstructor;
+import me.jooeon.mybeauty.global.common.model.enums.TimeUnit;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -47,5 +48,10 @@ public class DateUtil {
     // 두 날짜 사이의 연 수 계산
     public static long calculateYearsBetween(LocalDate startDate, LocalDate endDate) {
         return ChronoUnit.YEARS.between(startDate, endDate);
+    }
+
+    // 현재 날짜와 차이 계산
+    public static String formatElapsedTime(LocalDate pastDate) {
+        return TimeUnit.formatElapsedTime(pastDate);
     }
 }
