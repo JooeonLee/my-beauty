@@ -18,17 +18,7 @@ public class ReviewMapper {
         Member member = review.getMember();
         MemberSimpleProfileDto memberSimpleProfileDto = MemberSimpleProfileDto.from(member);
 
-        String daysAgo;
-        long daysBetween = DateUtil.calculateDaysBetween(review.getCreatedAt().toLocalDate(), LocalDate.now());
-        daysAgo = daysBetween + "일전";
-        if (daysBetween > 29) {
-            long monthsBetween = DateUtil.calculateMonthsBetween(review.getCreatedAt().toLocalDate(), LocalDate.now());
-            daysAgo = monthsBetween + "개월전";
-            if (monthsBetween > 11) {
-                long yearsBetween = DateUtil.calculateYearsBetween(review.getCreatedAt().toLocalDate(), LocalDate.now());
-                daysAgo = yearsBetween + "년전";
-            }
-        }
+        String daysAgo = DateUtil.formatElapsedTime(review.getCreatedAt().toLocalDate());
 
         return ReviewResponseDto.builder()
                 .memberProfile(memberSimpleProfileDto)
