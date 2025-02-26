@@ -1,6 +1,7 @@
 package me.jooeon.mybeauty.api.comment;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import me.jooeon.mybeauty.domain.article.application.CommentApplicationService;
@@ -16,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
@@ -24,11 +24,9 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
-//import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,24 +59,6 @@ public class CommentControllerTest extends CommonControllerTest {
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andDo(print());
 
-        // then
-//        result.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.isSuccess").value(true))
-//                .andExpect(jsonPath("$.result").value(expectedCommentId))
-//                .andDo(document("comment-create",    // 문서 식별자
-//                        preprocessRequest(prettyPrint()),    // 요청 데이터 보기 좋게 출력
-//                        preprocessResponse(prettyPrint()),    // 응답 데이터 보기 좋게 출력
-//                        requestHeaders(    // 요청 헤더 문서화
-//                                headerWithName("Authorization").description("사용자 인증 및 인가를 위한 Bearer token")
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("isSuccess").description("API 성공 여부"),
-//                                fieldWithPath("responseCode").description("응답 코드"),
-//                                fieldWithPath("responseMessage").description("응답 메시지"),
-//                                fieldWithPath("result").description("요청 결과 생성된 댓글 ID")
-//                        )
-//                ));
-
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.isSuccess").value(true))
                 .andExpect(jsonPath("$.result").value(expectedCommentId))
@@ -95,12 +75,14 @@ public class CommentControllerTest extends CommonControllerTest {
                                         .requestHeaders(
                                                 headerWithName("Authorization").description("Bearer 토큰 (예: `Bearer your-jwt-token`)")
                                         )
+                                        .responseSchema(Schema.schema("BaseResponseSchema"))
                                         .responseFields(
-                                            fieldWithPath("isSuccess").description("API 성공 여부"),
-                                            fieldWithPath("responseCode").description("응답 코드"),
-                                            fieldWithPath("responseMessage").description("응답 메시지"),
-                                            fieldWithPath("result").description("요청 결과 생성된 댓글 ID")
-                                        ).build()
+                                                fieldWithPath("isSuccess").description("API 성공 여부"),
+                                                fieldWithPath("responseCode").description("응답 코드"),
+                                                fieldWithPath("responseMessage").description("응답 메시지"),
+                                                fieldWithPath("result").description("요청 결과 생성된 댓글 ID")
+                                        )
+                                        .build()
                         )
                 ));
     }
