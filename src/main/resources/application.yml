@@ -51,3 +51,16 @@ logging:
 # aws s3 설정 추가 예정
 
 # Spring Docs 설정 <- Spring Rest Docs 사용할 것인지 Open API를 용한 Swagger 사용할 것인지 고민 후 추가 필요
+
+# Swagger 설정
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui  # Swagger UI의 기본 URL 설정
+    url: /docs/openapi3.json  # 기본적으로 로드할 OpenAPI 문서 경로 설정
+    display-request-duration: true  # 요청 소요 시간 표시
+    deep-linking: true  # API 경로 링크를 직접 클릭 가능하게 함
+  api-docs:
+    enabled: true
+    path: /hidden-api-docs # 기본 /v3/api-docs 경로 숨김
+
