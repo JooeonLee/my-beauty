@@ -1,3 +1,6 @@
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.4'
@@ -5,6 +8,9 @@ plugins {
 
     // spring rest docs 관련
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+
+    // rest docs api spec
+    id 'com.epages.restdocs-api-spec' version '0.18.2'
 }
 
 group = 'me.jooeon'
@@ -70,6 +76,12 @@ dependencies {
     // thumbnailator
     implementation 'net.coobird:thumbnailator:0.4.20'
 
+    // rest docs api spec
+    testImplementation('com.epages:restdocs-api-spec-mockmvc:0.18.2')
+    testImplementation('com.epages:restdocs-api-spec:0.18.2')
+
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 }
 
 tasks.named('test') {
@@ -109,5 +121,64 @@ bootJar {
     }
     from("${asciidoctor.outputDir}") {
         into 'static/docs'
+    }
+}
+
+openapi3 {
+    server = 'http://localhost:8080'
+    title = 'My API'
+    description = 'My API description'
+    version = '0.1.0'
+    format = 'json'
+
+    copy {
+        from "build/api-spec"
+        into "src/main/resources/static/docs/"
+    }
+}
+
+task injectSecurityDefinition {
+    doLast {
+        def outputFile = file("build/api-spec/openapi3.json")
+        if (outputFile.exists()) {
+            def json = new JsonSlurper().parseText(outputFile.text)
+            // components가 없으면 생성
+            json.components = json.components ?: [:]
+            // securitySchemes가 없으면 생성
+            json.components.securitySchemes = json.components.securitySchemes ?: [:]
+            // JWT 보안 스키마 추가
+            json.components.securitySchemes.BearerAuth = [
+                    type         : "http",
+                    scheme       : "bearer",
+                    bearerFormat : "JWT"
+            ]
+            // 전역 security 설정 추가
+            json.security = [[ "BearerAuth": [] ]]
+
+            // JSON 포맷 재설정 후 저장
+            outputFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(json))
+            println "Security definition injected into openapi3.json"
+        } else {
+            println "openapi3.json not found at: ${outputFile.absolutePath}"
+        }
+    }
+}
+
+// openapi3 태스크가 끝난 후에 injectSecurityDefinition 태스크 실행
+afterEvaluate {
+    tasks.named("openapi3").configure {
+        finalizedBy injectSecurityDefinition
+    }
+}
+
+afterEvaluate {
+    // 빌드 실행 openaapi3 테스크가 자동 실해되도록 설정
+    tasks.named("build") {
+        dependsOn tasks.named("openapi3")
+    }
+
+    // bootJar 실행 시 openapi3가 실행되도록 설정 (실행 가능한 JAR에 포함)
+    tasks.named("bootJar") {
+        dependsOn tasks.named("openapi3")
     }
 }
