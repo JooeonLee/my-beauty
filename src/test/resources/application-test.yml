@@ -34,5 +34,7 @@ spring:
         default_batch_fetch_size: 100
         dialect: org.hibernate.dialect.MySQLDialect
 
+    defer-datasource-initialization: true
+
 app:
   baseUrl: http://localhost:8080
