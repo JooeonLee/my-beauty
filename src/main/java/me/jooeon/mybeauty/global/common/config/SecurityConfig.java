@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.global.common.security;
+package me.jooeon.mybeauty.global.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +8,8 @@ import me.jooeon.mybeauty.domain.auth.utils.JwtUtil;
 import me.jooeon.mybeauty.domain.auth.presentation.handler.CustomAuthenticationSuccessHandler;
 import me.jooeon.mybeauty.domain.member.model.Role;
 import me.jooeon.mybeauty.global.common.exception.handler.FilterExceptionHandler;
+import me.jooeon.mybeauty.global.common.security.CustomAccessDeniedHandler;
+import me.jooeon.mybeauty.global.common.security.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -55,7 +57,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/api-json/**", "/api-docs", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("/oauth2/**","/login/**", "/reissue", "/api/login/success", "/docs/**", "/app/api/image/**").permitAll()
+                        .requestMatchers("/oauth2/**","/login/**", "/reissue", "/api/login/success", "/docs/**", "/app/api/image/**", "/swagger-ui", "/swagger-ui/**", "/v3/**").permitAll()
                         //.anyRequest().authenticated() // 이상함
                         .anyRequest().hasRole(Role.MEMBER.getValue())
                 );
