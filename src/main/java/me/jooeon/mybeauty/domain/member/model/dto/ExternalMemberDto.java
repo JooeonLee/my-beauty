@@ -19,8 +19,9 @@ public class ExternalMemberDto {
     private String memberProfileImageUrl;
     private String gender;
     private LocalDate birthday;
+    private String skinType;
 
-    public ExternalMemberDto(Long memberId, String email, String nickname, String role, String memberProfileImageUrl, String gender, LocalDate birthday) {
+    public ExternalMemberDto(Long memberId, String email, String nickname, String role, String memberProfileImageUrl, String gender, LocalDate birthday, String skinType) {
         this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
@@ -28,6 +29,7 @@ public class ExternalMemberDto {
         this.memberProfileImageUrl = memberProfileImageUrl;
         this.gender = gender;
         this.birthday = birthday;
+        this.skinType = skinType;
     }
 
     // 정적 팩토리 메서드
@@ -40,6 +42,7 @@ public class ExternalMemberDto {
                 .memberProfileImageUrl(member.getMemberProfileImageUrl())
                 .gender(member.getGender().toString())
                 .birthday(member.getBirthday())
+                .skinType(member.getSkinType())
                 .build();
     }
 }

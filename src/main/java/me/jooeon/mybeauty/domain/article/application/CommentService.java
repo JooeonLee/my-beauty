@@ -41,4 +41,8 @@ public class CommentService {
         return commentRepository.findByArticleId(articleId);
     }
 
+    @Transactional(readOnly = true)
+    public long countCommentByArticleId(long articleId) {
+        return commentRepository.countByArticleId(articleId);
+    }
 }

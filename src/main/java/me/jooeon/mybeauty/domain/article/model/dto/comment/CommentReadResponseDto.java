@@ -28,7 +28,5 @@ public class CommentReadResponseDto {
                 .memberProfileInfo(memberSimpleProfileDto)
                 .daysAgo(daysAgo)
                 .build();
-
-
     }
 }

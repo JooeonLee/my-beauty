@@ -1,4 +1,4 @@
-package me.jooeon.mybeauty.domain.article.model.dto.article;
+package me.jooeon.mybeauty.domain.article.model.dto.comment;
 
 import lombok.Builder;
 import lombok.Getter;

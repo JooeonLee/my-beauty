@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.jooeon.mybeauty.domain.article.application.ArticleApplicationService;
 import me.jooeon.mybeauty.domain.article.application.ArticleService;
 import me.jooeon.mybeauty.domain.article.model.Article;
+import me.jooeon.mybeauty.domain.article.model.dto.article.ArticleReadResponseDto;
 import me.jooeon.mybeauty.domain.article.model.dto.article.ArticleSaveRequestDto;
 import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
@@ -37,5 +38,11 @@ public class ArticleController {
         Long createArticleId = articleApplicationService.createArticle(requestDto, memberId, articleImage);
 
         return new BaseResponse(createArticleId);
+    }
+
+    @GetMapping(value = "/articles/{articleId}")
+    public BaseResponse getArticle(@PathVariable Long articleId) {
+        ArticleReadResponseDto articleReadResponseDto = articleApplicationService.getArticleById(articleId);
+        return new BaseResponse(articleReadResponseDto);
     }
 }
