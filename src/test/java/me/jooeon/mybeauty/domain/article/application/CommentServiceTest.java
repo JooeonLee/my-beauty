@@ -83,4 +83,27 @@ public class CommentServiceTest {
         assertThat(result.get(2)).isEqualTo(comments.get(2));
         assertThat(result.get(3)).isEqualTo(comments.get(3));
     }
+
+    @DisplayName("게시글_ID_를 통해_게시글에_등록된_댓글수를_조회한다.")
+    @Test
+    void countCommentByArticleId() {
+
+        // given
+        Article testArticle = ArticleFixture.아티클_아이디포함(1L, "테스트_아티클_제목", "테스트_아티클_내용");
+
+        List<Comment> comments = Arrays.asList(
+                CommentFixture.댓글_아이디포함(1L, testArticle, "테스트_아티클_내용1", 2L),
+                CommentFixture.댓글_아이디포함(2L, testArticle, "테스트_아티클_내용2", 3L),
+                CommentFixture.댓글_아이디포함(3L, testArticle, "테스트_아티클_내용3", 4L),
+                CommentFixture.댓글_아이디포함(4L, testArticle, "테스트_아티클_내용4", 5L)
+        );
+
+        given(commentRepository.countByArticleId(testArticle.getId())).willReturn((long) comments.size());
+
+        // when
+        long result = commentService.countCommentByArticleId(testArticle.getId());
+
+        // then
+        assertThat(result).isEqualTo(comments.size());
+    }
 }
