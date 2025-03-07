@@ -35,5 +35,14 @@ public class MemberSimpleProfileDto {
                 .build();
     }
 
+    public static MemberSimpleProfileDto fromExternal(ExternalMemberDto externalMemberDto) {
+        return MemberSimpleProfileDto.builder()
+                .nickname(externalMemberDto.getNickname())
+                .age(DateUtil.calculateAge(externalMemberDto.getBirthday()))
+                .gender(externalMemberDto.getGender())
+                .skinType(externalMemberDto.getSkinType())
+                .profileImageUrl(externalMemberDto.getMemberProfileImageUrl())
+                .build();
+    }
 
 }

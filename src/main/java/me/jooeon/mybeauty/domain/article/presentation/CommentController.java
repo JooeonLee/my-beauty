@@ -3,7 +3,7 @@ package me.jooeon.mybeauty.domain.article.presentation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.jooeon.mybeauty.domain.article.application.CommentApplicationService;
-import me.jooeon.mybeauty.domain.article.model.dto.article.CommentSaveRequestDto;
+import me.jooeon.mybeauty.domain.article.model.dto.comment.CommentSaveRequestDto;
 import me.jooeon.mybeauty.domain.auth.model.dto.CustomOAuth2User;
 import me.jooeon.mybeauty.global.common.model.dto.BaseResponse;
 import me.jooeon.mybeauty.global.common.util.CustomOAuth2UserUtil;
