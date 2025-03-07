@@ -4,6 +4,8 @@ import me.jooeon.mybeauty.domain.article.model.Article;
 import me.jooeon.mybeauty.domain.article.model.ArticleType;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 
+import java.lang.reflect.Field;
+
 public class ArticleFixture {
 
     public static Article 아티클() {
@@ -18,5 +20,22 @@ public class ArticleFixture {
                 .memberId(1L)
                 .status(Status.ACTIVE)
                 .build();
+    }
+
+    public static Article 아티클_아이디포함(long articleId, String title, String content) {
+        Article article = 아티클(title, content);
+        setId(article, articleId);
+        return article;
+    }
+
+    // Reflection 을 이용하여 ID 값을 강제 설정
+    private static void setId(Article article, long id) {
+        try {
+            Field field = Article.class.getDeclaredField("id");
+            field.setAccessible(true);
+            field.set(article, id);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to set id of article", e);
+        }
     }
 }
