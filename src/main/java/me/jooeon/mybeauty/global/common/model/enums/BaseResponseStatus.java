@@ -55,8 +55,10 @@ public enum BaseResponseStatus {
     NONE_MEMBER(false, HttpStatus.BAD_REQUEST, 2301, "존재하지 않는 회원입니다."),
 
     // 2400 : Article Exception
-    NONE_ARTICLE(false, HttpStatus.BAD_REQUEST, 2401, "존재하지 않는 게시글입니다.");
+    NONE_ARTICLE(false, HttpStatus.BAD_REQUEST, 2401, "존재하지 않는 게시글입니다."),
 
+    // 2500 : Comment Exception
+    NONE_COMMENT(false, HttpStatus.BAD_REQUEST, 2501, "존재하지 않는 댓글입니다.");
     // 2910 :
 //
 //
