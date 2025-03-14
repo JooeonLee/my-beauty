@@ -1,4 +1,4 @@
-= Conect API Document
+= Comment API Document
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
