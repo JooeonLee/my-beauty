@@ -52,8 +52,7 @@ public class ArticleLikesServiceTest {
         given(articleLikesRepository.findByMemberIdAndArticleId(testMemberId, testArticle.getId())).willReturn(Optional.empty());
 
         // when
-        //boolean result = articleLikesService.toggleLikes(testMemberId, testArticle.getId());
-        boolean result = false;
+        boolean result = articleLikesService.toggleLikes(testMemberId, testArticle.getId());
 
         // then
         assertThat(result).isEqualTo(expectedResult);
