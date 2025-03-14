@@ -58,6 +58,7 @@ public class CommentControllerTest extends CommonControllerTest {
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andDo(print());
 
+        // then
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.isSuccess").value(true))
                 .andExpect(jsonPath("$.result").value(expectedCommentId))
@@ -75,17 +76,14 @@ public class CommentControllerTest extends CommonControllerTest {
                                         .requestHeaders(
                                                 headerWithName("Authorization").description("Bearer 토큰 (예: `Bearer your-jwt-token`)")
                                         )
-                                        .responseSchema(Schema.schema("BaseResponseSchema"))
                                         .responseFields(
-                                                fieldWithPath("isSuccess").description("API 성공 여부"),
-                                                fieldWithPath("responseCode").description("응답 코드"),
-                                                fieldWithPath("responseMessage").description("응답 메시지"),
-                                                fieldWithPath("result").description("요청 결과 생성된 댓글 ID")
+                                                DocsUtils.mergeResponseFields(
+                                                        fieldWithPath("result").type("number").description("요청 결과 생성된 댓글 ID")
+                                                )
                                         )
                                         .responseSchema(Schema.schema("CommentCreateResponseSchema"))
                                         .build()
-                        ),
-                        DocsUtils.commonResponseFields()
+                        )
                 ));
     }
 }

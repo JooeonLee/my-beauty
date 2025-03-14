@@ -29,6 +29,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,6 +73,11 @@ public class CommentLikesControllerTest extends CommonControllerTest {
                                     headerWithName("Authorization").description("사용자 인증 및 인가를 위한 Bearer token")
                             ),
                             DocsUtils.commonRequestHeaders(),
+                            responseFields(
+                                    DocsUtils.mergeResponseFields(
+                                            fieldWithPath("result").description("요청 결과 댓글 토글 성공 여부")
+                                    )
+                            ),
                             resource(
                                     ResourceSnippetParameters.builder()
                                             .tag("Comment Likes API")
@@ -81,14 +87,12 @@ public class CommentLikesControllerTest extends CommonControllerTest {
                                             )
                                             .responseSchema(Schema.schema("BaseResponseSchema"))
                                             .responseFields(
-                                                    fieldWithPath("isSuccess").description("API 성공 여부"),
-                                                    fieldWithPath("responseCode").description("응답 코드"),
-                                                    fieldWithPath("responseMessage").description("응답 메서드"),
-                                                    fieldWithPath("result").description("요청 결과 댓글 토글 성공 여부")
+                                                    DocsUtils.mergeResponseFields(
+                                                            fieldWithPath("result").description("요청 결과 댓글 토글 성공 여부")
+                                                    )
                                             )
                                             .build()
-                            ),
-                            DocsUtils.commonResponseFields()
+                            )
                     ));
         }
     }
