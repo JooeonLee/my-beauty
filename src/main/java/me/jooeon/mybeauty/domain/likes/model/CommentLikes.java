@@ -2,6 +2,7 @@ package me.jooeon.mybeauty.domain.likes.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import me.jooeon.mybeauty.domain.article.model.Comment;
@@ -10,6 +11,7 @@ import me.jooeon.mybeauty.domain.article.model.Comment;
 @DiscriminatorValue("comment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
+@Getter
 public class CommentLikes extends Likes {
 
     // 연관 관계 mapping

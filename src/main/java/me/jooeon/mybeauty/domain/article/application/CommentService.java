@@ -6,6 +6,8 @@ import me.jooeon.mybeauty.domain.article.model.Comment;
 import me.jooeon.mybeauty.domain.article.model.dto.comment.CommentResponseDto;
 import me.jooeon.mybeauty.domain.article.model.dto.comment.CommentSaveRequestDto;
 import me.jooeon.mybeauty.domain.article.model.repository.CommentRepository;
+import me.jooeon.mybeauty.global.common.exception.exception.article.CommentException;
+import me.jooeon.mybeauty.global.common.model.enums.BaseResponseStatus;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +46,11 @@ public class CommentService {
     @Transactional(readOnly = true)
     public long countCommentByArticleId(long articleId) {
         return commentRepository.countByArticleId(articleId);
+    }
+
+    @Transactional(readOnly = true)
+    public Comment findCommentById(long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentException(BaseResponseStatus.NONE_COMMENT));
     }
 }

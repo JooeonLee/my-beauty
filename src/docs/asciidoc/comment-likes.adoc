@@ -1,0 +1,26 @@
+= Comment-Likes API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+== Comment-Likes 관련 API
+
+=== 댓글 좋아요 토글
+
+==== 요청
+
+include::{snippets}/comment-likes-toggle/http-request.adoc[]
+
+==== 요청 헤더
+include::{snippets}/comment-likes-toggle/request-headers.adoc[]
+
+
+==== 응답
+
+include::{snippets}/comment-likes-toggle/http-response.adoc[]
+
+==== 응답 필드
+
+include::{snippets}/comment-likes-toggle/response-fields.adoc[]

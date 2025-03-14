@@ -3,6 +3,7 @@ package me.jooeon.mybeauty.api.comment;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.jooeon.mybeauty.docs.DocsUtils;
 import me.jooeon.mybeauty.domain.article.application.CommentApplicationService;
 import me.jooeon.mybeauty.domain.article.model.dto.comment.CommentSaveRequestDto;
 import me.jooeon.mybeauty.domain.article.presentation.CommentController;
@@ -57,6 +58,7 @@ public class CommentControllerTest extends CommonControllerTest {
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andDo(print());
 
+        // then
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.isSuccess").value(true))
                 .andExpect(jsonPath("$.result").value(expectedCommentId))
@@ -66,6 +68,7 @@ public class CommentControllerTest extends CommonControllerTest {
                         requestHeaders(    // 요청 헤더 문서화
                                 headerWithName("Authorization").description("사용자 인증 및 인가를 위한 Bearer token")
                         ),
+                        DocsUtils.commonRequestHeaders(),
                         resource(
                                 ResourceSnippetParameters.builder()
                                         .tag("Comment API")
@@ -73,13 +76,12 @@ public class CommentControllerTest extends CommonControllerTest {
                                         .requestHeaders(
                                                 headerWithName("Authorization").description("Bearer 토큰 (예: `Bearer your-jwt-token`)")
                                         )
-                                        .responseSchema(Schema.schema("BaseResponseSchema"))
                                         .responseFields(
-                                                fieldWithPath("isSuccess").description("API 성공 여부"),
-                                                fieldWithPath("responseCode").description("응답 코드"),
-                                                fieldWithPath("responseMessage").description("응답 메시지"),
-                                                fieldWithPath("result").description("요청 결과 생성된 댓글 ID")
+                                                DocsUtils.mergeResponseFields(
+                                                        fieldWithPath("result").type("number").description("요청 결과 생성된 댓글 ID")
+                                                )
                                         )
+                                        .responseSchema(Schema.schema("CommentCreateResponseSchema"))
                                         .build()
                         )
                 ));

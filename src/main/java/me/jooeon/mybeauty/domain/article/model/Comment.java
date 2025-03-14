@@ -5,7 +5,6 @@ import lombok.*;
 import me.jooeon.mybeauty.global.common.model.enums.Status;
 import me.jooeon.mybeauty.global.common.model.entity.BaseEntity;
 import me.jooeon.mybeauty.domain.likes.model.CommentLikes;
-import me.jooeon.mybeauty.domain.member.model.Member;
 
 import java.util.ArrayList;
 import java.util.List;
