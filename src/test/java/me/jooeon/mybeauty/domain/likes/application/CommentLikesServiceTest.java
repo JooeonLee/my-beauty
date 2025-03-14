@@ -56,8 +56,7 @@ public class CommentLikesServiceTest {
         given(commentLikesRepository.findByMemberIdAndCommentId(testMemberId, testComment.getId())).willReturn(Optional.empty());
 
         // when
-//        boolean result = commentLikesService.toggleLikes(testMemberId, testComment.getId());
-        boolean result = false;
+        boolean result = commentLikesService.toggleLikes(testMemberId, testComment.getId());
 
         // then
         assertThat(result).isEqualTo(expectedResult);
