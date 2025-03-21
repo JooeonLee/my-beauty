@@ -1,0 +1,65 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+        DATASOURCE_URL_LOCAL: ${DATASOURCE_URL_LOCAL}
+        DATASOURCE_USERNAME_LOCAL: ${DATASOURCE_USERNAME_LOCAL}
+        DATASOURCE_PASSWORD_LOCAL: ${DATASOURCE_PASSWORD_LOCAL}
+        GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+        GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+        GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI}
+        JWT_ACCESS_EXPIRED_IN: ${JWT_ACCESS_EXPIRED_IN}
+        JWT_REFRESH_EXPIRED_IN: ${JWT_REFRESH_EXPIRED_IN}
+        JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+        KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID}
+        KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET}
+        NAVER_CLIENT_ID: ${NAVER_CLIENT_ID}
+        NAVER_CLIENT_SECRET: ${NAVER_CLIENT_SECRET}
+        BASE_URL: ${BASE_URL}
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - DATASOURCE_URL_LOCAL=${DATASOURCE_URL_LOCAL}
+      - DATASOURCE_USERNAME_LOCAL=${DATASOURCE_USERNAME_LOCAL}
+      - DATASOURCE_PASSWORD_LOCAL=${DATASOURCE_PASSWORD_LOCAL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+      - JWT_ACCESS_EXPIRED_IN=${JWT_ACCESS_EXPIRED_IN}
+      - JWT_REFRESH_EXPIRED_IN=${JWT_REFRESH_EXPIRED_IN}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
+      - KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}
+      - NAVER_CLIENT_ID=${NAVER_CLIENT_ID}
+      - NAVER_CLIENT_SECRET=${NAVER_CLIENT_SECRET}
+      - BASE_URL=${BASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy # MySQL 컨테이너가 "완전히 실행된 후" 실행
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+#      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ALLOW_EMPTY_PASSWORD : "yes"
+      MYSQL_DATABASE: mybeauty
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: ${DATASOURCE_PASSWORD_LOCAL}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck: # ✅ MySQL 컨테이너에 healthcheck 추가
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s  # 10초마다 체크
+      retries: 5  # 5번 체크 후 실패하면 컨테이너 종료
+      timeout: 5s  # 5초 이내 응답 없으면 실패 처리
+
+volumes:
+  mysql_data:
