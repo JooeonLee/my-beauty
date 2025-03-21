@@ -64,7 +64,7 @@ COPY --chown=gradle:gradle . .
 RUN gradle dependencies --no-daemon
 
 # Spring Boot 애플리케이션 빌드 (JAR 생성)
-RUN gradle bootJar --no-daemon
+RUN gradle bootJar -x test --no-daemon
 
 # ====== 2. 실행 단계 ======
 FROM openjdk:17-jdk-slim
