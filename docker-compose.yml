@@ -52,7 +52,7 @@ services:
 #      MYSQL_USER: root
 #      MYSQL_PASSWORD: ${DATASOURCE_PASSWORD_LOCAL}
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck: # ✅ MySQL 컨테이너에 healthcheck 추가
