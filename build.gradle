@@ -164,10 +164,16 @@ task injectSecurityDefinition {
     }
 }
 
+task copyOpenApiSpec(type: Copy) {
+    from "build/api-spec"
+    include "openapi3.json"
+    into "src/main/resources/static/docs"
+}
+
 // openapi3 태스크가 끝난 후에 injectSecurityDefinition 태스크 실행
 afterEvaluate {
     tasks.named("openapi3").configure {
-        finalizedBy injectSecurityDefinition
+        finalizedBy injectSecurityDefinition, copyOpenApiSpec
     }
 }
 
