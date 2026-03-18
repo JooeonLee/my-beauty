@@ -22,6 +22,8 @@ public class ArticleLikesService {
     private final MemberPort memberPort;
     private final ArticleService articleService;
 
+    private final GenericLikesService genericLikesService;
+
     @Transactional
     public boolean toggleLikes(Long memberId, Long articleId) {
 
@@ -51,5 +53,22 @@ public class ArticleLikesService {
                 .build();
         articleLikesRepository.save(articleLikes);
         return true;
+    }
+
+    @Transactional
+    public boolean toggleLikes2(Long memberId, Long articleId) {
+        return genericLikesService.toggleLikes(
+                memberId,
+                articleId,
+                memberPort::getMemberById,
+                articleService::getArticleById,
+                articleLikesRepository::findByMemberIdAndArticleId,
+                (member, article) -> ArticleLikes.builder()
+                        .member(member)
+                        .article(article)
+                        .status(Status.ACTIVE)
+                        .build(),
+                articleLikesRepository::save
+        );
     }
 }
