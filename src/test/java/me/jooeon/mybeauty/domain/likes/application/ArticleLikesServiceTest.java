@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
@@ -34,6 +35,8 @@ public class ArticleLikesServiceTest {
     private ArticleService articleService;
     @Mock
     private ArticleLikesRepository articleLikesRepository;
+    @Spy
+    private GenericLikesService genericLikesService;
 
     @DisplayName("아티클좋아요_생성에_성공하면_생성에_성공했다는_결과를_반환한다.")
     @Test

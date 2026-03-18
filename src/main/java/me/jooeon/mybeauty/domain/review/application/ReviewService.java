@@ -66,6 +66,11 @@ public class ReviewService {
 
     }
 
+    public Review getReviewById(Long reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException("Review not found: " + reviewId));
+    }
+
     @Transactional(readOnly = true)
     public SliceResponse<ReviewResponseDto> getReviewByCosmeticId(long cosmeticId, Pageable pageable) {
 
